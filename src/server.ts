@@ -17,7 +17,7 @@ import { initializeFirebase } from "./firebase/firebaseSetup";
 // import { BackupToBucket } from "./backup/backup";
 
 import firebaseAdmin from "firebase-admin";
-import { createTablesInit } from "./db/CreateTables";
+import { createTablesInit } from "./models/CreateTables";
 
 const envPath = path.join(__dirname, "../.env.development");
 env.config({ path: envPath });
