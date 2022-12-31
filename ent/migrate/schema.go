@@ -44,6 +44,7 @@ var (
 		{Name: "date", Type: field.TypeString, Size: 2147483647},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "user_portfolios", Type: field.TypeInt, Nullable: true},
 	}
 	// PortfoliosTable holds the schema information for the "portfolios" table.
 	PortfoliosTable = &schema.Table{
@@ -66,6 +67,7 @@ var (
 		{Name: "date", Type: field.TypeTime},
 		{Name: "quantity", Type: field.TypeInt},
 		{Name: "price", Type: field.TypeInt},
+		{Name: "user_id", Type: field.TypeInt},
 		{Name: "trans_type", Type: field.TypeString, Size: 2147483647},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
@@ -79,7 +81,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "transactions_portfolios_transactions",
-				Columns:    []*schema.Column{TransactionsColumns[8]},
+				Columns:    []*schema.Column{TransactionsColumns[9]},
 				RefColumns: []*schema.Column{PortfoliosColumns[0]},
 				OnDelete:   schema.SetNull,
 			},

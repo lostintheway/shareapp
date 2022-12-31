@@ -67,6 +67,19 @@ func (tu *TransactionUpdate) AddPrice(i int) *TransactionUpdate {
 	return tu
 }
 
+// SetUserID sets the "user_id" field.
+func (tu *TransactionUpdate) SetUserID(i int) *TransactionUpdate {
+	tu.mutation.ResetUserID()
+	tu.mutation.SetUserID(i)
+	return tu
+}
+
+// AddUserID adds i to the "user_id" field.
+func (tu *TransactionUpdate) AddUserID(i int) *TransactionUpdate {
+	tu.mutation.AddUserID(i)
+	return tu
+}
+
 // SetTransType sets the "trans_type" field.
 func (tu *TransactionUpdate) SetTransType(s string) *TransactionUpdate {
 	tu.mutation.SetTransType(s)
@@ -207,6 +220,12 @@ func (tu *TransactionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := tu.mutation.AddedPrice(); ok {
 		_spec.AddField(transaction.FieldPrice, field.TypeInt, value)
 	}
+	if value, ok := tu.mutation.UserID(); ok {
+		_spec.SetField(transaction.FieldUserID, field.TypeInt, value)
+	}
+	if value, ok := tu.mutation.AddedUserID(); ok {
+		_spec.AddField(transaction.FieldUserID, field.TypeInt, value)
+	}
 	if value, ok := tu.mutation.TransType(); ok {
 		_spec.SetField(transaction.FieldTransType, field.TypeString, value)
 	}
@@ -302,6 +321,19 @@ func (tuo *TransactionUpdateOne) SetPrice(i int) *TransactionUpdateOne {
 // AddPrice adds i to the "price" field.
 func (tuo *TransactionUpdateOne) AddPrice(i int) *TransactionUpdateOne {
 	tuo.mutation.AddPrice(i)
+	return tuo
+}
+
+// SetUserID sets the "user_id" field.
+func (tuo *TransactionUpdateOne) SetUserID(i int) *TransactionUpdateOne {
+	tuo.mutation.ResetUserID()
+	tuo.mutation.SetUserID(i)
+	return tuo
+}
+
+// AddUserID adds i to the "user_id" field.
+func (tuo *TransactionUpdateOne) AddUserID(i int) *TransactionUpdateOne {
+	tuo.mutation.AddUserID(i)
 	return tuo
 }
 
@@ -474,6 +506,12 @@ func (tuo *TransactionUpdateOne) sqlSave(ctx context.Context) (_node *Transactio
 	}
 	if value, ok := tuo.mutation.AddedPrice(); ok {
 		_spec.AddField(transaction.FieldPrice, field.TypeInt, value)
+	}
+	if value, ok := tuo.mutation.UserID(); ok {
+		_spec.SetField(transaction.FieldUserID, field.TypeInt, value)
+	}
+	if value, ok := tuo.mutation.AddedUserID(); ok {
+		_spec.AddField(transaction.FieldUserID, field.TypeInt, value)
 	}
 	if value, ok := tuo.mutation.TransType(); ok {
 		_spec.SetField(transaction.FieldTransType, field.TypeString, value)

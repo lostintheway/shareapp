@@ -45,6 +45,12 @@ func (tc *TransactionCreate) SetPrice(i int) *TransactionCreate {
 	return tc
 }
 
+// SetUserID sets the "user_id" field.
+func (tc *TransactionCreate) SetUserID(i int) *TransactionCreate {
+	tc.mutation.SetUserID(i)
+	return tc
+}
+
 // SetTransType sets the "trans_type" field.
 func (tc *TransactionCreate) SetTransType(s string) *TransactionCreate {
 	tc.mutation.SetTransType(s)
@@ -205,6 +211,9 @@ func (tc *TransactionCreate) check() error {
 	if _, ok := tc.mutation.Price(); !ok {
 		return &ValidationError{Name: "price", err: errors.New(`ent: missing required field "Transaction.price"`)}
 	}
+	if _, ok := tc.mutation.UserID(); !ok {
+		return &ValidationError{Name: "user_id", err: errors.New(`ent: missing required field "Transaction.user_id"`)}
+	}
 	if _, ok := tc.mutation.TransType(); !ok {
 		return &ValidationError{Name: "trans_type", err: errors.New(`ent: missing required field "Transaction.trans_type"`)}
 	}
@@ -262,6 +271,10 @@ func (tc *TransactionCreate) createSpec() (*Transaction, *sqlgraph.CreateSpec) {
 	if value, ok := tc.mutation.Price(); ok {
 		_spec.SetField(transaction.FieldPrice, field.TypeInt, value)
 		_node.Price = value
+	}
+	if value, ok := tc.mutation.UserID(); ok {
+		_spec.SetField(transaction.FieldUserID, field.TypeInt, value)
+		_node.UserID = value
 	}
 	if value, ok := tc.mutation.TransType(); ok {
 		_spec.SetField(transaction.FieldTransType, field.TypeString, value)

@@ -22,6 +22,7 @@ func (Transaction) Fields() []ent.Field {
 		field.Time("date"),
 		field.Int("quantity"),
 		field.Int("price"),
+		field.Int("user_id"),
 		field.Text("trans_type"),
 		field.Time("created_at").
 			Default(time.Now).

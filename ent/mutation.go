@@ -1698,6 +1698,8 @@ type TransactionMutation struct {
 	addquantity   *int
 	price         *int
 	addprice      *int
+	user_id       *int
+	adduser_id    *int
 	trans_type    *string
 	created_at    *time.Time
 	updated_at    *time.Time
@@ -1997,6 +1999,62 @@ func (m *TransactionMutation) ResetPrice() {
 	m.addprice = nil
 }
 
+// SetUserID sets the "user_id" field.
+func (m *TransactionMutation) SetUserID(i int) {
+	m.user_id = &i
+	m.adduser_id = nil
+}
+
+// UserID returns the value of the "user_id" field in the mutation.
+func (m *TransactionMutation) UserID() (r int, exists bool) {
+	v := m.user_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUserID returns the old "user_id" field's value of the Transaction entity.
+// If the Transaction object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TransactionMutation) OldUserID(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUserID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUserID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUserID: %w", err)
+	}
+	return oldValue.UserID, nil
+}
+
+// AddUserID adds i to the "user_id" field.
+func (m *TransactionMutation) AddUserID(i int) {
+	if m.adduser_id != nil {
+		*m.adduser_id += i
+	} else {
+		m.adduser_id = &i
+	}
+}
+
+// AddedUserID returns the value that was added to the "user_id" field in this mutation.
+func (m *TransactionMutation) AddedUserID() (r int, exists bool) {
+	v := m.adduser_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetUserID resets all changes to the "user_id" field.
+func (m *TransactionMutation) ResetUserID() {
+	m.user_id = nil
+	m.adduser_id = nil
+}
+
 // SetTransType sets the "trans_type" field.
 func (m *TransactionMutation) SetTransType(s string) {
 	m.trans_type = &s
@@ -2163,7 +2221,7 @@ func (m *TransactionMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *TransactionMutation) Fields() []string {
-	fields := make([]string, 0, 7)
+	fields := make([]string, 0, 8)
 	if m.shareName != nil {
 		fields = append(fields, transaction.FieldShareName)
 	}
@@ -2175,6 +2233,9 @@ func (m *TransactionMutation) Fields() []string {
 	}
 	if m.price != nil {
 		fields = append(fields, transaction.FieldPrice)
+	}
+	if m.user_id != nil {
+		fields = append(fields, transaction.FieldUserID)
 	}
 	if m.trans_type != nil {
 		fields = append(fields, transaction.FieldTransType)
@@ -2201,6 +2262,8 @@ func (m *TransactionMutation) Field(name string) (ent.Value, bool) {
 		return m.Quantity()
 	case transaction.FieldPrice:
 		return m.Price()
+	case transaction.FieldUserID:
+		return m.UserID()
 	case transaction.FieldTransType:
 		return m.TransType()
 	case transaction.FieldCreatedAt:
@@ -2224,6 +2287,8 @@ func (m *TransactionMutation) OldField(ctx context.Context, name string) (ent.Va
 		return m.OldQuantity(ctx)
 	case transaction.FieldPrice:
 		return m.OldPrice(ctx)
+	case transaction.FieldUserID:
+		return m.OldUserID(ctx)
 	case transaction.FieldTransType:
 		return m.OldTransType(ctx)
 	case transaction.FieldCreatedAt:
@@ -2267,6 +2332,13 @@ func (m *TransactionMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetPrice(v)
 		return nil
+	case transaction.FieldUserID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUserID(v)
+		return nil
 	case transaction.FieldTransType:
 		v, ok := value.(string)
 		if !ok {
@@ -2302,6 +2374,9 @@ func (m *TransactionMutation) AddedFields() []string {
 	if m.addprice != nil {
 		fields = append(fields, transaction.FieldPrice)
 	}
+	if m.adduser_id != nil {
+		fields = append(fields, transaction.FieldUserID)
+	}
 	return fields
 }
 
@@ -2314,6 +2389,8 @@ func (m *TransactionMutation) AddedField(name string) (ent.Value, bool) {
 		return m.AddedQuantity()
 	case transaction.FieldPrice:
 		return m.AddedPrice()
+	case transaction.FieldUserID:
+		return m.AddedUserID()
 	}
 	return nil, false
 }
@@ -2336,6 +2413,13 @@ func (m *TransactionMutation) AddField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddPrice(v)
+		return nil
+	case transaction.FieldUserID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUserID(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Transaction numeric field %s", name)
@@ -2375,6 +2459,9 @@ func (m *TransactionMutation) ResetField(name string) error {
 		return nil
 	case transaction.FieldPrice:
 		m.ResetPrice()
+		return nil
+	case transaction.FieldUserID:
+		m.ResetUserID()
 		return nil
 	case transaction.FieldTransType:
 		m.ResetTransType()

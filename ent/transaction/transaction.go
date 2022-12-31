@@ -19,6 +19,8 @@ const (
 	FieldQuantity = "quantity"
 	// FieldPrice holds the string denoting the price field in the database.
 	FieldPrice = "price"
+	// FieldUserID holds the string denoting the user_id field in the database.
+	FieldUserID = "user_id"
 	// FieldTransType holds the string denoting the trans_type field in the database.
 	FieldTransType = "trans_type"
 	// FieldCreatedAt holds the string denoting the created_at field in the database.
@@ -45,6 +47,7 @@ var Columns = []string{
 	FieldDate,
 	FieldQuantity,
 	FieldPrice,
+	FieldUserID,
 	FieldTransType,
 	FieldCreatedAt,
 	FieldUpdatedAt,

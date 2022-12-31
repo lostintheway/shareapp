@@ -25,6 +25,8 @@ type Transaction struct {
 	Quantity int `json:"quantity,omitempty"`
 	// Price holds the value of the "price" field.
 	Price int `json:"price,omitempty"`
+	// UserID holds the value of the "user_id" field.
+	UserID int `json:"user_id,omitempty"`
 	// TransType holds the value of the "trans_type" field.
 	TransType string `json:"trans_type,omitempty"`
 	// CreatedAt holds the value of the "created_at" field.
@@ -64,7 +66,7 @@ func (*Transaction) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case transaction.FieldID, transaction.FieldQuantity, transaction.FieldPrice:
+		case transaction.FieldID, transaction.FieldQuantity, transaction.FieldPrice, transaction.FieldUserID:
 			values[i] = new(sql.NullInt64)
 		case transaction.FieldShareName, transaction.FieldTransType:
 			values[i] = new(sql.NullString)
@@ -116,6 +118,12 @@ func (t *Transaction) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field price", values[i])
 			} else if value.Valid {
 				t.Price = int(value.Int64)
+			}
+		case transaction.FieldUserID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field user_id", values[i])
+			} else if value.Valid {
+				t.UserID = int(value.Int64)
 			}
 		case transaction.FieldTransType:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -186,6 +194,9 @@ func (t *Transaction) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("price=")
 	builder.WriteString(fmt.Sprintf("%v", t.Price))
+	builder.WriteString(", ")
+	builder.WriteString("user_id=")
+	builder.WriteString(fmt.Sprintf("%v", t.UserID))
 	builder.WriteString(", ")
 	builder.WriteString("trans_type=")
 	builder.WriteString(t.TransType)

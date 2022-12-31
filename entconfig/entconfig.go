@@ -12,7 +12,7 @@ var Client *ent.Client
 
 func EntConfig() {
 	mainCtx := context.Background()
-	clentt, err := ent.Open(dialect.MySQL, "sawmill:#1914SawMillion@tcp(150.230.237.97:3306)/shareapp_test_db?charset=utf8")
+	clentt, err := ent.Open(dialect.MySQL, "sawmill:#1914SawMillion@tcp(150.230.237.97:3306)/deals_test_db?charset=utf8")
 	if err != nil {
 		log.Fatal(err)
 	}
