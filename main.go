@@ -14,6 +14,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/joho/godotenv"
 	"github.com/lostintheway/shareapp/tree/shareapp_go_ent/entconfig"
+	"github.com/lostintheway/shareapp/tree/shareapp_go_ent/routes"
 
 	// "github.com/lostinthwway/deals/tree/deals_fiber_v2/entconfig"
 	// "github.com/lostinthwway/deals/tree/deals_fiber_v2/myfirebase"
@@ -62,7 +63,7 @@ func main() {
 	app.Get("/test", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World! You are at the root endpoint 😉")
 	})
-	// routes.AllROutes(app)
+	routes.AllROutes(app)
 
 	log.Fatal(app.Listen(fmt.Sprintf(":%s", os.Getenv("APP_PORT"))))
 }
