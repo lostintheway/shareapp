@@ -3,13 +3,13 @@ package com.lostintheway.shareapp.portfolios.entity;
 import java.sql.Date;
 
 import com.lostintheway.shareapp.investments.entity.Investment;
+import com.lostintheway.shareapp.transactions.entity.Transaction;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Portfolio {
@@ -20,9 +20,10 @@ public class Portfolio {
     private String name;
     private String adminName;
     private Date date;
-    @ManyToOne
-    @JoinColumn(name = "investment_id")
-    private Investment investment;
+    @OneToMany(mappedBy = "portfolioId")
+    private Investment product;
+    @OneToMany(mappedBy = "portfolioId")
+    private Transaction transaction;
 
     public Portfolio(int id, String name, String adminName, Date date) {
         this.id = id;

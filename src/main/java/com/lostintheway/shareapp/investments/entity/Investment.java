@@ -1,15 +1,14 @@
 package com.lostintheway.shareapp.investments.entity;
 
 import java.sql.Date;
-import java.util.Set;
-
 import com.lostintheway.shareapp.portfolios.entity.Portfolio;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Investment {
@@ -25,8 +24,9 @@ public class Investment {
     private String paymentMethod;
     private String remarks;
 
-    @OneToMany(mappedBy = "teacher")
-    private Set<Portfolio> students;
+    @ManyToOne
+    @JoinColumn(referencedColumnName = "id")
+    private Portfolio portfolio;
 
     public Investment(int id, int userId, String name, String relation, Date date, int amount,
             String paymentMethod, String remarks) {

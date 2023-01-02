@@ -1,6 +1,6 @@
 package com.lostintheway.shareapp.transactions.entity;
 
-import com.lostintheway.shareapp.investments.entity.Investment;
+import com.lostintheway.shareapp.portfolios.entity.Portfolio;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,8 +22,8 @@ public class Transaction {
     private int userId; // no relation
 
     @ManyToOne
-    @JoinColumn(name = "investment_id")
-    private Investment investment;
+    @JoinColumn(referencedColumnName = "id")
+    private Portfolio portfolioId;
 
     public Transaction(int id, int shareName, int date, int quantity, int price, int transType, int userId) {
         this.id = id;
