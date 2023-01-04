@@ -8,7 +8,11 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ConfigProvider
       theme={{
-        token: { borderRadius: 2 },
+        token: {
+          borderRadius: 2,
+          // colorSuccess: "#52C41A",
+          colorPrimary: "#f48924",
+        },
       }}
     >
       <App />

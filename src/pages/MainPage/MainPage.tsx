@@ -1,10 +1,14 @@
 import React, { useState } from "react";
+import AddShare from "../../components/Share/AddShare/AddShare";
 
 type Props = {};
 
 const MainPage = (props: Props) => {
-  const [first, setfirst] = useState(false);
-  return <div>hellofrommainpage</div>;
+  return (
+    <div>
+      <AddShare isOpen={true} onClose={() => {}} />
+    </div>
+  );
 };
 
 export default MainPage;

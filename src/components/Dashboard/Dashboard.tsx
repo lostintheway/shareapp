@@ -6,14 +6,14 @@ import {
   UserOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu, theme } from "antd";
+import { ConfigProvider, Layout, Menu, theme } from "antd";
 import { Outlet, useNavigate } from "react-router-dom";
 import "./Dashboard.scss";
 
 const { Header, Sider, Content } = Layout;
 
 const Dashboard = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -24,37 +24,43 @@ const Dashboard = () => {
     <Layout style={{ height: "100vh", width: "100vw" }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo" />
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={["1"]}
-          items={[
-            {
-              key: "1",
-              icon: <UserOutlined />,
-              label: "home",
-              onClick: () => {
-                history("/admin/home");
+        <ConfigProvider
+          theme={{
+            token: { colorPrimary: "#1677FF", padding: 0 },
+          }}
+        >
+          <Menu
+            theme="dark"
+            mode="inline"
+            defaultSelectedKeys={["1"]}
+            items={[
+              {
+                key: "1",
+                icon: <UserOutlined />,
+                label: "home",
+                onClick: () => {
+                  history("/admin/home");
+                },
               },
-            },
-            {
-              key: "2",
-              icon: <VideoCameraOutlined />,
-              label: "nav 2",
-              onClick: () => {
-                history("/admin/home2");
+              {
+                key: "2",
+                icon: <VideoCameraOutlined />,
+                label: "nav 2",
+                onClick: () => {
+                  history("/admin/home2");
+                },
               },
-            },
-            {
-              key: "3",
-              icon: <UploadOutlined />,
-              label: "nav 3",
-              onClick: () => {
-                history("/admin/hom");
+              {
+                key: "3",
+                icon: <UploadOutlined />,
+                label: "nav 3",
+                onClick: () => {
+                  history("/admin/hom");
+                },
               },
-            },
-          ]}
-        />
+            ]}
+          />
+        </ConfigProvider>
       </Sider>
       <Layout className="site-layout">
         <Header style={{ padding: 0, background: colorBgContainer }}>
