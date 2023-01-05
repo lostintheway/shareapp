@@ -1,18 +1,21 @@
-import { setSTyp } from "./ApiService.interface";
+import { Dispatch } from "react";
+import { Action } from "../../store/IsOpenContext";
 
-type ResTyp1<R> = Promise<
-  | {
-      data: R;
-      message: string;
-    }
-  | undefined
->;
+type ResTyp<R> = Promise<{
+  data: R;
+  message: string;
+}>;
+
+export type dT = Dispatch<Action>;
 
 interface IApiService {
-  post<T, R>(url: string, body: T): Promise<void>;
-  postWLoad<T, R>(url: string, body: T, sS: setSTyp): void;
-  postWLoadRes<T, R>(url: string, body: T, setS: setSTyp): ResTyp1<R>;
-  get<T>(url: string): Promise<T>;
+  postWLoad<B>(url: string, body: B, dispatch: dT): void;
+  postWRes<B, R>(url: string, body: B, dispatch: dT): ResTyp<R>;
+  get<T>(url: string): ResTyp<T>;
+  getWSub<T>(url: string, dispatch: dT): Promise<T>;
+  putWSub<B, R>(url: string, body: B, dispatch: dT): ResTyp<R>;
+  patchWSub<B, R>(url: string, body: B, dispatch: dT): ResTyp<R>;
+  delWSub<R>(url: string, dispatch: dT): ResTyp<R>;
 }
 
 export default IApiService;
