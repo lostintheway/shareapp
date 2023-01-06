@@ -1,19 +1,21 @@
+import React from "react";
 import { Button } from "antd";
 import { useContext } from "react";
 import AddShare from "../../components/Share/AddShare/AddShare";
-import { Actions, IsOpenStore } from "../../store/IsOpenContext";
+import { Actions, IsOpenStore, withIsOpen } from "../../store/IsOpenContext";
 
 const ViewShares = () => {
-  const { dispatch } = useContext(IsOpenStore);
+  const { state, dispatch } = useContext(IsOpenStore);
+
+  const onOpen = () => dispatch({ type: Actions.share, payload: true });
 
   return (
-    <>
-      <Button onClick={() => dispatch({ type: Actions.share, payload: true })}>
-        open drawer
-      </Button>
+    <div>
+      {JSON.stringify(state)}
+      <Button onClick={onOpen}>open drawer</Button>
       <AddShare />
-    </>
+    </div>
   );
 };
 
-export default ViewShares;
+export default withIsOpen(ViewShares);

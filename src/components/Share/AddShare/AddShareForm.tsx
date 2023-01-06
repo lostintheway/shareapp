@@ -1,11 +1,9 @@
-import { Col, Form, Radio, Row, Select } from "antd";
+import React from "react";
+import { Col, Form, Radio, Row } from "antd";
 import { ColHm } from "../../Form.helper";
 import { FormLabel } from "./FormLabel";
 
-type Props = {};
-
-const AddShareForm = (props: Props) => {
-  const { Option } = Select;
+const AddShareForm = () => {
   return (
     <Form layout="vertical">
       <Row gutter={16}>

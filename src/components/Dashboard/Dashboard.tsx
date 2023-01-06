@@ -37,7 +37,7 @@ const Dashboard = () => {
               {
                 key: "1",
                 icon: <UserOutlined />,
-                label: "home",
+                label: "Shares",
                 onClick: () => {
                   history("/admin/home");
                 },

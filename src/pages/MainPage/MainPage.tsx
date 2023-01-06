@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
-type Props = {};
-
-const MainPage = (props: Props) => {
+const MainPage = () => {
   return <div>test</div>;
 };
 

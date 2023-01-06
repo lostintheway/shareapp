@@ -1,3 +1,4 @@
+import React from "react";
 import { createContext, Dispatch, Reducer, useReducer } from "react";
 
 export enum Actions {
@@ -49,15 +50,26 @@ export const IsOpenStore = createContext<{
   dispatch: () => null,
 });
 
-export function IsOpenProvider({
-  children,
-}: {
+interface ChildrenTyp {
   children: JSX.Element;
-}): JSX.Element {
+}
+
+const IsOpenProvider = ({ children }: ChildrenTyp): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, initIsOpen);
   return (
     <IsOpenStore.Provider value={{ state, dispatch }}>
       {children}
     </IsOpenStore.Provider>
   );
+};
+
+// HOC function
+export function withIsOpen(WrappedComponent: () => JSX.Element) {
+  return function EnhancedComponent(props: object) {
+    return (
+      <IsOpenProvider>
+        <WrappedComponent {...props} />
+      </IsOpenProvider>
+    );
+  };
 }
