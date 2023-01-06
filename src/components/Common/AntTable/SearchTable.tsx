@@ -2,7 +2,7 @@ import { Col, Row, Table, TableProps } from "antd";
 import React, { useState } from "react";
 import SearchTableInput from "./SearchTableInput";
 
-const AntTable = (props: TableProps<any>) => {
+const SearchTable = (props: TableProps<any>) => {
   const { dataSource, columns, ...otherProps } = props;
   const [searchDataSource, setSearchDataSource] = useState(dataSource);
   return (
@@ -14,9 +14,10 @@ const AntTable = (props: TableProps<any>) => {
         style={{
           marginBottom: 10,
           display: "flex",
-          justifyContent: "flex-end",
+          justifyContent: "space-between",
         }}
       >
+        {props.children}
         <SearchTableInput
           dataSource={dataSource}
           setDataSource={setSearchDataSource}
@@ -28,4 +29,4 @@ const AntTable = (props: TableProps<any>) => {
   );
 };
 
-export default AntTable;
+export default SearchTable;

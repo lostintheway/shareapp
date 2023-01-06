@@ -3,6 +3,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "antd/dist/reset.css";
+import "./styles/Global.scss";
+import "./styles/Common.scss";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -10,7 +12,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       theme={{
         token: {
           borderRadius: 2,
-          colorPrimary: "#5A54F9",
+          colorPrimary: "#9370DB",
         },
       }}
     >

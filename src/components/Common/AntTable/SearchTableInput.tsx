@@ -36,6 +36,7 @@ const SearchTableInput = ({ dataSource, setDataSource, inputProps }: Props) => {
 
   return (
     <Input
+      style={{ maxWidth: 500 }}
       allowClear
       onChange={(e) => setSearchVal(e.target.value)}
       {...inputProps}
