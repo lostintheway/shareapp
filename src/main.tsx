@@ -10,7 +10,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       theme={{
         token: {
           borderRadius: 2,
-          colorPrimary: "#f48924",
+          colorPrimary: "#5A54F9",
         },
       }}
     >
