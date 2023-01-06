@@ -1,5 +1,6 @@
-import { ConfigProvider } from "antd";
 import React from "react";
+import { ConfigProvider } from "antd";
+
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "antd/dist/reset.css";

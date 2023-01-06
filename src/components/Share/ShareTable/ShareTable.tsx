@@ -1,8 +1,8 @@
-import React from "react";
 import SearchTable from "../../Common/AntTable/SearchTable";
+import "./ShareTable.scss";
 
 type Props = {
-  children: any;
+  children: React.ReactNode;
 };
 
 const ShareTable = (props: Props) => {
@@ -53,6 +53,7 @@ const ShareTable = (props: Props) => {
     <>
       <div className="MyCard">
         <SearchTable
+          className="ShareTable"
           rowKey={"name"}
           dataSource={[
             { symbol: "Sushil Sampang Rai" },
@@ -60,8 +61,9 @@ const ShareTable = (props: Props) => {
             { symbol: "Sushil22222 Rai" },
           ]}
           columns={columns}
-          children={props.children}
-        />
+        >
+          {props.children}
+        </SearchTable>
       </div>
     </>
   );

@@ -1,4 +1,3 @@
-import React from "react";
 import { Col, Form, Radio, Row } from "antd";
 import { ColHm } from "../../Form.helper";
 import { FormLabel } from "./FormLabel";

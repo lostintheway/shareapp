@@ -2,7 +2,7 @@ import { Col, Row, Table, TableProps } from "antd";
 import React, { useState } from "react";
 import SearchTableInput from "./SearchTableInput";
 
-const SearchTable = (props: TableProps<any>) => {
+const SearchTable = (props: TableProps<unknown>) => {
   const { dataSource, columns, ...otherProps } = props;
   const [searchDataSource, setSearchDataSource] = useState(dataSource);
   return (
@@ -24,6 +24,7 @@ const SearchTable = (props: TableProps<any>) => {
           inputProps={{ placeholder: "Search" }}
         />
       </div>
+      <div className="GradientBorder"></div>
       <Table {...otherProps} dataSource={searchDataSource} columns={columns} />
     </React.Fragment>
   );

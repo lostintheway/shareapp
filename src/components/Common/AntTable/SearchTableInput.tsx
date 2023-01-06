@@ -1,11 +1,12 @@
-import React, { Dispatch, useEffect, useState } from "react";
+import { Dispatch, useEffect, useState } from "react";
 import { Input, InputProps } from "antd";
 import Fuse from "fuse.js";
 import { useDebounce } from "./useDebounce";
+import { SearchOutlined } from "@ant-design/icons";
 
 type Props = {
-  dataSource: readonly any[] | undefined;
-  setDataSource: Dispatch<any>;
+  dataSource: readonly object[] | undefined;
+  setDataSource: Dispatch<unknown>;
   inputProps: InputProps;
 };
 
@@ -38,6 +39,7 @@ const SearchTableInput = ({ dataSource, setDataSource, inputProps }: Props) => {
     <Input
       style={{ maxWidth: 500 }}
       allowClear
+      prefix={<SearchOutlined />}
       onChange={(e) => setSearchVal(e.target.value)}
       {...inputProps}
     />

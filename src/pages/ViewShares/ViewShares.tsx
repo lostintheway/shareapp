@@ -1,9 +1,7 @@
-import React from "react";
-import { Button, Cascader, Radio, Tabs } from "antd";
+import { Button, Cascader } from "antd";
 import { useContext } from "react";
 import AddShare from "../../components/Share/AddShare/AddShare";
 import { Actions, IsOpenStore, withIsOpen } from "../../store/IsOpenContext";
-import SearchTable from "../../components/Common/AntTable/SearchTable";
 import ShareTable from "../../components/Share/ShareTable/ShareTable";
 import { PlusOutlined } from "@ant-design/icons";
 
@@ -12,12 +10,6 @@ const ViewShares = () => {
 
   const onOpen = () => dispatch({ type: Actions.share, payload: true });
 
-  const items = [
-    { label: `Over All`, children: `Content of Tab Pane 1`, key: "1" },
-    { label: `Tab 2`, children: `Content of Tab Pane 2`, key: "2" },
-    { label: `Tab 3`, children: `Content of Tab Pane 3`, key: "3" },
-    { label: `Tab 4`, children: `Content of Tab Pane 4`, key: "4" },
-  ];
   return (
     <div>
       <AddShare />
@@ -36,12 +28,18 @@ const ViewShares = () => {
         </Button>
       </div>
       <ShareTable>
-        <Radio.Group onChange={() => {}}>
-          <Radio.Button value="topLeft">PortFolio</Radio.Button>
-          <Radio.Button value="topRight">topRight</Radio.Button>
-          <Radio.Button value="bottomLeft">bottomLeft</Radio.Button>
-          <Radio.Button value="bottomRight">bottomRight</Radio.Button>
-        </Radio.Group>
+        <div className="SortDiv">
+          <Cascader
+            defaultValue={["all"]}
+            bordered={false}
+            options={[{ label: "Over All", value: "all" }]}
+          ></Cascader>
+          <Cascader
+            placeholder="Sort By:"
+            bordered={false}
+            className="borderLeft"
+          ></Cascader>
+        </div>
       </ShareTable>
     </div>
   );
