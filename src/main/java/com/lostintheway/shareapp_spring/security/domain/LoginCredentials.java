@@ -1,4 +1,4 @@
-package com.lostintheway.shareapp_spring.security;
+package com.lostintheway.shareapp_spring.security.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

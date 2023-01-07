@@ -1,4 +1,4 @@
-package com.lostintheway.shareapp_spring.security;
+package com.lostintheway.shareapp_spring.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
