@@ -2,18 +2,18 @@ package com.lostintheway.shareapp_spring.user;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
-import lombok.RequiredArgsConstructor;
 
 @Service
-@RequiredArgsConstructor
 public class JwtUserService {
 
-    private final JwtUserRepository jwtUserRepository;
+    @Autowired
+    private JwtUserRepository jwtUserRepository;
 
-    public JwtUser savUser(JwtUser jwtUser) {
+    public JwtUser saveUser(JwtUser jwtUser) {
         return jwtUserRepository.save(jwtUser);
     }
 
