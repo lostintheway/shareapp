@@ -15,13 +15,13 @@ import com.lostintheway.shareapp_spring.service.InvestmentService;
 
 @Controller
 @RestController
-@RequestMapping("/investment")
+@RequestMapping
 public class InvestmentController {
 
     @Autowired
     InvestmentService investmentService;
 
-    @GetMapping
+    @GetMapping("/investment")
     public ResponseEntity<List<Investment>> getAll() {
         return ResponseEntity.status(200).body(investmentService.getAll());
     }
