@@ -1,0 +1,21 @@
+[
+  {
+    "_id": "87c1e271-cb0b-4195-b685-e8153fcf8e61",
+    "colId": "afebab4d-3fc8-4f0a-80dd-212a6d40ff24",
+    "containerId": "",
+    "name": "register",
+    "url": "http://localhost:5000/register",
+    "method": "POST",
+    "sortNum": 10000,
+    "created": "2023-01-08T14:54:10.913Z",
+    "modified": "2023-01-08T15:05:29.199Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"firstname\": \"user\",\n  \"lastname\": \"user\",\n  \"email\": \"user\",\n  \"password\": \"test\"\n}",
+      "form": []
+    },
+    "tests": []
+  }
+]
