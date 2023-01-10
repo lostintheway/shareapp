@@ -54,7 +54,7 @@ const ShareTable = (props: Props) => {
       <div className="MyCard">
         <SearchTable
           className="ShareTable"
-          rowKey={"name"}
+          rowKey={"symbol"}
           dataSource={[
             { symbol: "Sushil Sampang Rai" },
             { symbol: "Sushil Rai" },

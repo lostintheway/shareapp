@@ -5,6 +5,7 @@ export enum Actions {
   share = "setAddShareisOpen",
   sub = "setSubmitting",
   load = "setLoading",
+  currentPf = "setCurrentPF",
 }
 
 export type IsOpenState = {

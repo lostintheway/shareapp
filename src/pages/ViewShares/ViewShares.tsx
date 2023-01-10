@@ -1,4 +1,4 @@
-import { Button, Cascader } from "antd";
+import { Button, Cascader, Tooltip } from "antd";
 import { useContext } from "react";
 import AddShare from "../../components/Share/AddShare/AddShare";
 import { Actions, IsOpenStore, withIsOpen } from "../../store/IsOpenContext";
@@ -29,11 +29,13 @@ const ViewShares = () => {
       </div>
       <ShareTable>
         <div className="SortDiv">
-          <Cascader
-            defaultValue={["all"]}
-            bordered={false}
-            options={[{ label: "Over All", value: "all" }]}
-          ></Cascader>
+          <Tooltip title="Sort By Portfolio">
+            <Cascader
+              defaultValue={["all"]}
+              bordered={false}
+              options={[{ label: "Over All", value: "all" }]}
+            ></Cascader>
+          </Tooltip>
           <Cascader
             placeholder="Sort By:"
             bordered={false}

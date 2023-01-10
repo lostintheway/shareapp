@@ -1,6 +1,7 @@
 import { Col, Form, Radio, Row } from "antd";
 import { ColHm } from "../../Form.helper";
 import { FormLabel } from "./FormLabel";
+import FormRadio from "./FormRadio";
 
 const AddShareForm = () => {
   return (
@@ -23,17 +24,26 @@ const AddShareForm = () => {
       </Row>
       <Row gutter={16}>
         <Col {...ColHm(12)}>
-          <Form.Item
-            initialValue="buy"
+          <FormRadio
+            init="buy"
+            label="Transaction Type"
             name="transType"
-            label="Type"
-            rules={[{ required: true, message: "Type cannot be empty" }]}
-          >
-            <Radio.Group buttonStyle="solid">
-              <Radio.Button value="buy">buy</Radio.Button>
-              <Radio.Button value="sell">sell</Radio.Button>
-            </Radio.Group>
-          </Form.Item>
+            data={[
+              { value: "buy", label: "Buy" },
+              { value: "sell", label: "Sell" },
+            ]}
+          />
+        </Col>
+        <Col {...ColHm(12)}>
+          <FormRadio
+            init="SECONDARY"
+            label="Share Type"
+            name="shareType"
+            data={[
+              { value: "SECONDARY", label: "Secondary" },
+              { value: "IPO", label: "IPO" },
+            ]}
+          />
         </Col>
       </Row>
     </Form>

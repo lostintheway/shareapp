@@ -10,7 +10,7 @@ const AddPortfolio = () => {
 
   return (
     <Drawer
-      title="Add Share"
+      title="Add Portfolio"
       width={"auto"}
       onClose={onClose}
       open={state.addPFisOpen}
