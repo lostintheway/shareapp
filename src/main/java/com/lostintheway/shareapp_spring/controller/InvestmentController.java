@@ -22,8 +22,8 @@ public class InvestmentController {
     @Autowired
     InvestmentService investmentService;
 
-    @PreAuthorize("hasAnyRole('" + "ADMIN" + "')")
     @GetMapping("/investment")
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
     public ResponseEntity<List<Investment>> getAll() {
         return ResponseEntity.status(200).body(investmentService.getAll());
     }

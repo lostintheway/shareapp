@@ -5,15 +5,17 @@ import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-// import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,27 +24,38 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
+@RequiredArgsConstructor
+@EnableMethodSecurity
 public class WebSecurityConfig {
+
+	@Autowired
+	private CustomOAuth2UserService oauthUserService;
+
+	@Autowired
+	private UserService userService;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests()
-				.requestMatchers("/", "/login", "/oauth/**").permitAll()
+				.requestMatchers("/", "/login", "/oauth/**", "/login/oauth**").hasRole("ROLE_USER")
+				.requestMatchers("/", "/login", "/oauth/**", "/login/oauth**").hasRole("ROLE_USER")
+				.requestMatchers("/", "/login", "/oauth/**", "/login/oauth**").hasRole("ROLE_ADMIN")
+				.requestMatchers("/login", "/oauth/**", "/login/oauth**").permitAll()
 				.anyRequest().authenticated()
 				.and()
-				.formLogin().permitAll()
-				.loginPage("/login")
-				.usernameParameter("email")
-				.passwordParameter("pass")
-				.defaultSuccessUrl("/list")
-				.and()
+				// .formLogin().permitAll()
+				// .loginPage("/login")
+				// .usernameParameter("email")
+				// .passwordParameter("pass")
+				// .defaultSuccessUrl("/list")
+				// .and()
 				.oauth2Login()
-				.loginPage("/login")
+				// .loginPage("/login")
 				.userInfoEndpoint()
 				.userService(oauthUserService)
 				.and()
 				.successHandler(new AuthenticationSuccessHandler() {
+
 					@Override
 					public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 							Authentication authentication) throws IOException, ServletException {
@@ -60,20 +73,8 @@ public class WebSecurityConfig {
 				.logout().logoutSuccessUrl("/").permitAll()
 				.and()
 				.exceptionHandling().accessDeniedPage("/403");
-		;
 		return http.build();
 	}
-
-	// @Bean
-	// public UserDetailsService userDetailsService() {
-	// UserDetails user = User.builder()
-	// .username("user")
-	// .password("password")
-	// .roles("USER")
-	// .build();
-	// return new InMemoryUserDetailsManager(user);
-	// }
-	// // }
 
 	@Bean
 	public UserDetailsService userDetailsService() {
@@ -85,13 +86,24 @@ public class WebSecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 
-	@Bean
-	public DaoAuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-		authProvider.setUserDetailsService(userDetailsService());
-		authProvider.setPasswordEncoder(passwordEncoder());
+	// @Bean
+	// public DaoAuthenticationProvider authenticationProvider() {
+	// DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+	// authProvider.setUserDetailsService(userDetailsService());
+	// authProvider.setPasswordEncoder(passwordEncoder());
 
-		return authProvider;
+	// return authProvider;
+	// }
+
+	@Bean
+	public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder,
+			UserDetailsService userDetailService)
+			throws Exception {
+		return http.getSharedObject(AuthenticationManagerBuilder.class)
+				.userDetailsService(userDetailsService())
+				.passwordEncoder(bCryptPasswordEncoder)
+				.and()
+				.build();
 	}
 
 	// @Override
@@ -102,8 +114,8 @@ public class WebSecurityConfig {
 
 	// @Override
 	// protected void configure(HttpSecurity http) throws Exception {
-	// http.authorizeHttpRequests()
-	// .requestMatchers("/", "/login", "/oauth/**").permitAll()
+	// http.authorizeRequests()
+	// .antMatchers("/", "/login", "/oauth/**").permitAll()
 	// .anyRequest().authenticated()
 	// .and()
 	// .formLogin().permitAll()
@@ -140,9 +152,4 @@ public class WebSecurityConfig {
 	// .exceptionHandling().accessDeniedPage("/403");
 	// }
 
-	@Autowired
-	private CustomOAuth2UserService oauthUserService;
-
-	@Autowired
-	private UserService userService;
 }
