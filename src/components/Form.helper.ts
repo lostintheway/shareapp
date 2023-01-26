@@ -1,4 +1,4 @@
-export const ColH = (h: number) => ({
+export const ColHmd = (h: number) => ({
   xs: 24,
   sm: 24,
   md: 24,
@@ -7,7 +7,7 @@ export const ColH = (h: number) => ({
   xxl: h,
 });
 
-export const ColHm = (h: number) => ({
+export const ColHxs = (h: number) => ({
   xs: 24,
   sm: h,
   md: h,

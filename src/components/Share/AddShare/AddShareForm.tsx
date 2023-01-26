@@ -1,5 +1,5 @@
 import { Col, Form, Radio, Row } from "antd";
-import { ColHm } from "../../Form.helper";
+import { ColHxs } from "../../Form.helper";
 import { FormLabel } from "./FormLabel";
 import FormRadio from "./FormRadio";
 
@@ -7,23 +7,23 @@ const AddShareForm = () => {
   return (
     <Form layout="vertical">
       <Row gutter={16}>
-        <Col {...ColHm(12)}>
+        <Col {...ColHxs(12)}>
           <FormLabel label="Name" name="shareName" />
         </Col>
-        <Col {...ColHm(12)}>
+        <Col {...ColHxs(12)}>
           <FormLabel label="Date" name="date" />
         </Col>
       </Row>
       <Row gutter={16}>
-        <Col {...ColHm(12)}>
+        <Col {...ColHxs(12)}>
           <FormLabel label="Quantity" name="quantity" />
         </Col>
-        <Col {...ColHm(12)}>
+        <Col {...ColHxs(12)}>
           <FormLabel label="Price" name="price" />
         </Col>
       </Row>
       <Row gutter={16}>
-        <Col {...ColHm(12)}>
+        <Col {...ColHxs(12)}>
           <FormRadio
             init="buy"
             label="Transaction Type"
@@ -34,7 +34,7 @@ const AddShareForm = () => {
             ]}
           />
         </Col>
-        <Col {...ColHm(12)}>
+        <Col {...ColHxs(12)}>
           <FormRadio
             init="SECONDARY"
             label="Share Type"
