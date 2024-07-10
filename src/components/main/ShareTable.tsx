@@ -1,6 +1,10 @@
+import { SelectStockData } from "@/db/schema";
 import React from "react";
 
-const ShareTable = () => {
+type Props = {
+  stockPrices: SelectStockData[];
+};
+const ShareTable = ({ stockPrices }: Props) => {
   return (
     <div>
       <table className="">
@@ -10,289 +14,25 @@ const ShareTable = () => {
             <th>LTP</th>
             <th>Chg</th>
             <th>% Chg</th>
-            <th>Max Price</th>
-            <th>Min Price</th>
-            <th>Open</th>
+            <th>Opening</th>
+            <th>Highest</th>
+            <th>Low</th>
             <th>Qty</th>
-            <th>Txn</th>
           </tr>
         </thead>
         <tbody>
-          <tr className="bg-green-500">
-            <td className="">ALICL</td>
-            <td className="">846.35</td>
-            <td className="">122</td>
-            <td className="">1.33</td>
-            <td className="">849.00</td>
-            <td className="">844.00</td>
-            <td className="">846.00</td>
-            <td className="">1,00,000</td>
-            <td className="">1,00,000</td>
-          </tr>
-          <tr className="bg-green-500">
-            <td className="">ALICL</td>
-            <td className="">846.35</td>
-            <td className="">122</td>
-            <td className="">1.33</td>
-            <td className="">849.00</td>
-            <td className="">844.00</td>
-            <td className="">846.00</td>
-            <td className="">1,00,000</td>
-            <td className="">1,00,000</td>
-          </tr>{" "}
-          <tr className="bg-red-500">
-            <td className="">ALICL</td>
-            <td className="">846.35</td>
-            <td className="">122</td>
-            <td className="">1.33</td>
-            <td className="">849.00</td>
-            <td className="">844.00</td>
-            <td className="">846.00</td>
-            <td className="">1,00,000</td>
-            <td className="">1,00,000</td>
-          </tr>{" "}
-          <tr className="bg-red-500">
-            <td className="">ALICL</td>
-            <td className="">846.35</td>
-            <td className="">122</td>
-            <td className="">1.33</td>
-            <td className="">849.00</td>
-            <td className="">844.00</td>
-            <td className="">846.00</td>
-            <td className="">1,00,000</td>
-            <td className="">1,00,000</td>
-          </tr>{" "}
-          <tr className="bg-green-500">
-            <td className="">ALICL</td>
-            <td className="">846.35</td>
-            <td className="">122</td>
-            <td className="">1.33</td>
-            <td className="">849.00</td>
-            <td className="">844.00</td>
-            <td className="">846.00</td>
-            <td className="">1,00,000</td>
-            <td className="">1,00,000</td>
-          </tr>{" "}
-          <tr className="bg-green-500">
-            <td className="">ALICL</td>
-            <td className="">846.35</td>
-            <td className="">122</td>
-            <td className="">1.33</td>
-            <td className="">849.00</td>
-            <td className="">844.00</td>
-            <td className="">846.00</td>
-            <td className="">1,00,000</td>
-            <td className="">1,00,000</td>
-          </tr>{" "}
-          <tr className="bg-green-500">
-            <td className="">ALICL</td>
-            <td className="">846.35</td>
-            <td className="">122</td>
-            <td className="">1.33</td>
-            <td className="">849.00</td>
-            <td className="">844.00</td>
-            <td className="">846.00</td>
-            <td className="">1,00,000</td>
-            <td className="">1,00,000</td>
-          </tr>{" "}
-          <tr className="bg-green-500">
-            <td className="">ALICL</td>
-            <td className="">846.35</td>
-            <td className="">122</td>
-            <td className="">1.33</td>
-            <td className="">849.00</td>
-            <td className="">844.00</td>
-            <td className="">846.00</td>
-            <td className="">1,00,000</td>
-            <td className="">1,00,000</td>
-          </tr>{" "}
-          <tr className="bg-green-500">
-            <td className="">ALICL</td>
-            <td className="">846.35</td>
-            <td className="">122</td>
-            <td className="">1.33</td>
-            <td className="">849.00</td>
-            <td className="">844.00</td>
-            <td className="">846.00</td>
-            <td className="">1,00,000</td>
-            <td className="">1,00,000</td>
-          </tr>{" "}
-          <tr className="bg-green-500">
-            <td className="">ALICL</td>
-            <td className="">846.35</td>
-            <td className="">122</td>
-            <td className="">1.33</td>
-            <td className="">849.00</td>
-            <td className="">844.00</td>
-            <td className="">846.00</td>
-            <td className="">1,00,000</td>
-            <td className="">1,00,000</td>
-          </tr>{" "}
-          <tr className="bg-green-500">
-            <td className="">ALICL</td>
-            <td className="">846.35</td>
-            <td className="">122</td>
-            <td className="">1.33</td>
-            <td className="">849.00</td>
-            <td className="">844.00</td>
-            <td className="">846.00</td>
-            <td className="">1,00,000</td>
-            <td className="">1,00,000</td>
-          </tr>{" "}
-          <tr className="bg-green-500">
-            <td className="">ALICL</td>
-            <td className="">846.35</td>
-            <td className="">122</td>
-            <td className="">1.33</td>
-            <td className="">849.00</td>
-            <td className="">844.00</td>
-            <td className="">846.00</td>
-            <td className="">1,00,000</td>
-            <td className="">1,00,000</td>
-          </tr>{" "}
-          <tr className="bg-green-500">
-            <td className="">ALICL</td>
-            <td className="">846.35</td>
-            <td className="">122</td>
-            <td className="">1.33</td>
-            <td className="">849.00</td>
-            <td className="">844.00</td>
-            <td className="">846.00</td>
-            <td className="">1,00,000</td>
-            <td className="">1,00,000</td>
-          </tr>{" "}
-          <tr className="bg-green-500">
-            <td className="">ALICL</td>
-            <td className="">846.35</td>
-            <td className="">122</td>
-            <td className="">1.33</td>
-            <td className="">849.00</td>
-            <td className="">844.00</td>
-            <td className="">846.00</td>
-            <td className="">1,00,000</td>
-            <td className="">1,00,000</td>
-          </tr>{" "}
-          <tr className="bg-green-500">
-            <td className="">ALICL</td>
-            <td className="">846.35</td>
-            <td className="">122</td>
-            <td className="">1.33</td>
-            <td className="">849.00</td>
-            <td className="">844.00</td>
-            <td className="">846.00</td>
-            <td className="">1,00,000</td>
-            <td className="">1,00,000</td>
-          </tr>{" "}
-          <tr className="bg-green-500">
-            <td className="">ALICL</td>
-            <td className="">846.35</td>
-            <td className="">122</td>
-            <td className="">1.33</td>
-            <td className="">849.00</td>
-            <td className="">844.00</td>
-            <td className="">846.00</td>
-            <td className="">1,00,000</td>
-            <td className="">1,00,000</td>
-          </tr>{" "}
-          <tr className="bg-green-500">
-            <td className="">ALICL</td>
-            <td className="">846.35</td>
-            <td className="">122</td>
-            <td className="">1.33</td>
-            <td className="">849.00</td>
-            <td className="">844.00</td>
-            <td className="">846.00</td>
-            <td className="">1,00,000</td>
-            <td className="">1,00,000</td>
-          </tr>{" "}
-          <tr className="bg-green-500">
-            <td className="">ALICL</td>
-            <td className="">846.35</td>
-            <td className="">122</td>
-            <td className="">1.33</td>
-            <td className="">849.00</td>
-            <td className="">844.00</td>
-            <td className="">846.00</td>
-            <td className="">1,00,000</td>
-            <td className="">1,00,000</td>
-          </tr>{" "}
-          <tr className="bg-green-500">
-            <td className="">ALICL</td>
-            <td className="">846.35</td>
-            <td className="">122</td>
-            <td className="">1.33</td>
-            <td className="">849.00</td>
-            <td className="">844.00</td>
-            <td className="">846.00</td>
-            <td className="">1,00,000</td>
-            <td className="">1,00,000</td>
-          </tr>{" "}
-          <tr className="bg-green-500">
-            <td className="">ALICL</td>
-            <td className="">846.35</td>
-            <td className="">122</td>
-            <td className="">1.33</td>
-            <td className="">849.00</td>
-            <td className="">844.00</td>
-            <td className="">846.00</td>
-            <td className="">1,00,000</td>
-            <td className="">1,00,000</td>
-          </tr>{" "}
-          <tr className="bg-green-500">
-            <td className="">ALICL</td>
-            <td className="">846.35</td>
-            <td className="">122</td>
-            <td className="">1.33</td>
-            <td className="">849.00</td>
-            <td className="">844.00</td>
-            <td className="">846.00</td>
-            <td className="">1,00,000</td>
-            <td className="">1,00,000</td>
-          </tr>{" "}
-          <tr className="bg-green-500">
-            <td className="">ALICL</td>
-            <td className="">846.35</td>
-            <td className="">122</td>
-            <td className="">1.33</td>
-            <td className="">849.00</td>
-            <td className="">844.00</td>
-            <td className="">846.00</td>
-            <td className="">1,00,000</td>
-            <td className="">1,00,000</td>
-          </tr>{" "}
-          <tr className="bg-green-500">
-            <td className="">ALICL</td>
-            <td className="">846.35</td>
-            <td className="">122</td>
-            <td className="">1.33</td>
-            <td className="">849.00</td>
-            <td className="">844.00</td>
-            <td className="">846.00</td>
-            <td className="">1,00,000</td>
-            <td className="">1,00,000</td>
-          </tr>{" "}
-          <tr className="bg-green-500">
-            <td className="">ALICL</td>
-            <td className="">846.35</td>
-            <td className="">122</td>
-            <td className="">1.33</td>
-            <td className="">849.00</td>
-            <td className="">844.00</td>
-            <td className="">846.00</td>
-            <td className="">1,00,000</td>
-            <td className="">1,00,000</td>
-          </tr>{" "}
-          <tr className="bg-green-500">
-            <td className="">ALICL</td>
-            <td className="">846.35</td>
-            <td className="">122</td>
-            <td className="">1.33</td>
-            <td className="">849.00</td>
-            <td className="">844.00</td>
-            <td className="">846.00</td>
-            <td className="">1,00,000</td>
-            <td className="">1,00,000</td>
-          </tr>
+          {stockPrices.map((stock) => (
+            <tr className="text-green-500" key={stock.symbol}>
+              <td className="">{stock.symbol}</td>
+              <td className="">{stock.ltp}</td>
+              <td className="">{stock.pointChange}</td>
+              <td className="">{stock.percentChange}</td>
+              <td className="">{stock.openPrice}</td>
+              <td className="">{stock.highPrice}</td>
+              <td className="">{stock.lowPrice}</td>
+              <td className="">{stock.volume}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
