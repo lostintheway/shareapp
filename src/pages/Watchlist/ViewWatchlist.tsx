@@ -2,16 +2,17 @@ import ShareViewLayout from "@/components/layouts/ShareViewLayout";
 import ShareTable from "@/components/main/ShareTable";
 import { db } from "@/db/db";
 import { SelectStockData, stockPrice } from "@/db/schema";
+import { sql } from "drizzle-orm";
 import React, { useEffect, useState } from "react";
 
-const Alphabetical = () => {
+const ViewWatchlist = () => {
   const [stockPrices, setStockPrices] = useState<SelectStockData[]>([]);
-
   useEffect(() => {
     function getStockPrices() {
+      const watchList = ["UPPER", "PHCL"];
       db.select()
         .from(stockPrice)
-        .orderBy(stockPrice.symbol)
+        .where(sql`${stockPrice.symbol} in ${watchList}`)
         .then((res) => {
           setStockPrices(res);
           console.log(res);
@@ -38,4 +39,4 @@ const Alphabetical = () => {
   );
 };
 
-export default Alphabetical;
+export default ViewWatchlist;
