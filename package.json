@@ -4,7 +4,7 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "bun run index.ts --watch",
+    "dev": "bun --watch index.ts",
     "migrate": "drizzle-kit migrate",
     "push": "drizzle-kit push",
     "generate": "drizzle-kit generate",
