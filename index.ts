@@ -1,6 +1,11 @@
 import { schedule } from "node-cron";
 import { scrapeJinaLiveMarket } from "./services/jinaFn";
 import { setupGlobalLogging } from "./utils/globalLogger";
+import { checkAndRunIfNeeded } from "./utils/checkAndRunIfNeeded";
+import { serve } from "bun";
+import { db } from "./db/db";
+import { stockPrice } from "./db/schema";
+import { asc } from "drizzle-orm";
 
 setupGlobalLogging();
 
@@ -25,27 +30,47 @@ schedule("0 11 * * 0-4", () => {
   setTimeout(stopScraping, 4 * 60 * 60 * 1000);
 });
 
-// Check if the current time is within the scraping window when the program first runs
-function checkAndRunIfNeeded() {
-  const now = new Date();
-  const day = now.getDay();
-  const hour = now.getHours();
-
-  // If it's Sunday to Thursday (0-4) and between 11 AM and 3 PM
-  if (day >= 0 && day <= 4 && hour >= 11 && hour < 15) {
-    const minutesUntilStop = (15 - hour) * 60 - now.getMinutes();
-    console.log(
-      `Current time is within scraping window. Starting now and running for ${minutesUntilStop} minutes.`
-    );
-
-    startScraping();
-    setTimeout(stopScraping, minutesUntilStop * 60 * 1000);
-  } else {
-    console.log(
-      "Current time is outside scraping window. Waiting for next scheduled run."
-    );
-  }
-}
-
 // Run the check when the program starts
 checkAndRunIfNeeded();
+
+export const server = serve({
+  port: 5600,
+  fetch(req, server) {
+    if (server.upgrade(req)) {
+      return; // Do not return a Response
+    }
+    return new Response("Upgrade failed", { status: 500 });
+  },
+  websocket: {
+    async open(ws) {
+      const origin = ws.remoteAddress;
+
+      // // List of allowed origins
+      // const allowedOrigins = [
+      //   "sushilsampangrai.com",
+      //   "tunnel.sushilsampangrai.com",
+      //   "localhost:3201",
+      //   "127.0.0.1:3202",
+      // ];
+
+      // // Check if the origin is allowed
+      // if (!allowedOrigins.some((allowed) => origin.includes(allowed))) {
+      //   console.log(`Rejected WebSocket connection from ${origin}`);
+      //   ws.close(1008, "Origin not allowed");
+      //   return;
+      // }
+
+      console.log(`New WebSocket connection from ${origin}`);
+      // const msg = ` has connected`;
+      ws.subscribe("liveltp");
+      const data = await db
+        .select()
+        .from(stockPrice)
+        .orderBy(asc(stockPrice.symbol));
+      ws.send(JSON.stringify(data));
+    },
+    message(ws, msg) {
+      ws.send(msg);
+    },
+  },
+});

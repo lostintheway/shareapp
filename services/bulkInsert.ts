@@ -3,6 +3,8 @@ import { db } from "../db/db";
 import { stockPrice, type StockPricePost } from "../db/schema";
 
 async function bulkInsertStockPrices(data: StockPricePost[]): Promise<void> {
+  if (data.length === 0) return;
+
   try {
     await db
       .insert(stockPrice)

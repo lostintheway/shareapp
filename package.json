@@ -21,6 +21,7 @@
   "dependencies": {
     "@libsql/client": "^0.7.0",
     "axios": "^1.7.2",
+    "dayjs": "^1.11.12",
     "drizzle-orm": "^0.32.0",
     "node-cron": "^3.0.3"
   }
