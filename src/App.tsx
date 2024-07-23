@@ -3,6 +3,7 @@ import MyHeader from "./components/main/MyHeader";
 import Alphabetical from "./pages/Alphabetical";
 import PageNotFound from "./pages/PageNotFound";
 import ViewWatchlist from "./pages/Watchlist/ViewWatchlist";
+import "./styles/glowDot.css";
 
 function App() {
   return (

@@ -15,13 +15,22 @@ export const useWebsocket = () => {
     };
 
     ws.onmessage = (event) => {
-      const newData: SelectStockData[] = JSON.parse(event.data);
+      const newData = JSON.parse(event.data);
+      console.log({ newData });
 
       setStockPrices((prevData) => {
-        const newDataMap = new Map(newData.map((data) => [data.symbol, data]));
-        return prevData.map((item) => newDataMap.get(item.symbol) || item);
+        const newDataMap = prevData.reduce(
+          (map, data) => map.set(data.symbol, data),
+          new Map<string, SelectStockData>()
+        );
+        newData.forEach((newData: SelectStockData) => {
+          newDataMap.set(newData.symbol, newData);
+        });
+        return Array.from(newDataMap.values());
       });
     };
+
+    // can this be optimized more
 
     ws.onerror = (error) => {
       if (error instanceof Error) {
