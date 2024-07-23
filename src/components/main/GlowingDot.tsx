@@ -6,7 +6,7 @@ const GlowingDot = ({ isGreen = false }) => {
 
   return (
     <div
-      className={`w-2 h-2 rounded-full ${colorClass}`}
+      className={`w-2 h-2 rounded-full ${colorClass} animate-pulse`}
       style={{
         boxShadow: `0 0 5px ${shadowColor}, 0 0 10px ${shadowColor}, 0 0 15px ${shadowColor}`,
       }}

@@ -33,6 +33,13 @@ const MenuBtn = () => {
         >
           View Watchlist
         </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            navigate("/add_watchlist");
+          }}
+        >
+          Add Watchlist
+        </DropdownMenuItem>
         {/* </Link> */}
         {/* ⇧⌘Q */}
         <DropdownMenuItem>Support</DropdownMenuItem>

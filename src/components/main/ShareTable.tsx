@@ -27,7 +27,13 @@ const ShareTable = ({ stockPrices }: Props) => {
           {stockPrices.map((stock, index) => (
             <tr className="text-sm text-color-[#909090]" key={index}>
               <td>
-                <GlowingDot isGreen />
+                <GlowingDot
+                  isGreen={
+                    stock.percentChange !== null && stock.percentChange > 0
+                      ? true
+                      : false
+                  }
+                />
               </td>
               <td className="">{stock.symbol}</td>
               <td className="">{stock.ltp}</td>

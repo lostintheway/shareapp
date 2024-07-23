@@ -4,6 +4,7 @@ import Alphabetical from "./pages/Alphabetical";
 import PageNotFound from "./pages/PageNotFound";
 import ViewWatchlist from "./pages/Watchlist/ViewWatchlist";
 import "./styles/glowDot.css";
+import AddWatchlist from "./pages/Watchlist/AddWatchlist";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/hightolow" element={<Alphabetical />} />
           {/* my_watchlist */}
           <Route path="/my_watchlist" element={<ViewWatchlist />} />
+          <Route path="/add_watchlist" element={<AddWatchlist />} />
           {/* <Route path="/app" element={<Dashboard />}>
             <Route path="home" element={<Home />} />
             <Route path="portfolio/:id" element={<Portfolio />} />
