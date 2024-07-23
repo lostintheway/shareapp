@@ -4,10 +4,12 @@ import App from "./App.tsx";
 import "./index.css";
 import { ThemeProvider } from "./components/theme-provider.tsx";
 import "./styles/table.css";
+import { Toaster } from "./components/ui/sonner.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <Toaster />
       <App />
     </ThemeProvider>
   </React.StrictMode>

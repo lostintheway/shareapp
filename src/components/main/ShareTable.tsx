@@ -7,6 +7,7 @@ type Props = {
 const ShareTable = ({ stockPrices }: Props) => {
   return (
     <div>
+      {/* {JSON.stringify(stockPrices[0])} */}
       <table className="">
         <thead>
           <tr>
@@ -21,8 +22,8 @@ const ShareTable = ({ stockPrices }: Props) => {
           </tr>
         </thead>
         <tbody>
-          {stockPrices.map((stock) => (
-            <tr className="text-green-500" key={stock.symbol}>
+          {stockPrices.map((stock, index) => (
+            <tr className="text-green-500" key={index}>
               <td className="">{stock.symbol}</td>
               <td className="">{stock.ltp}</td>
               <td className="">{stock.pointChange}</td>
