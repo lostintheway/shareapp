@@ -6,6 +6,8 @@ import { serve } from "bun";
 import { db } from "./db/db";
 import { stockPrice } from "./db/schema";
 import { asc } from "drizzle-orm";
+import { getTodaysPrice } from "./routes/todaysprice";
+import { handleOptions } from "./utils/cors";
 
 setupGlobalLogging();
 
@@ -39,6 +41,13 @@ export const server = serve({
     if (server.upgrade(req)) {
       return; // Do not return a Response
     }
+    // Handle OPTIONS requests for CORS preflight
+    if (req.method === "OPTIONS") {
+      return handleOptions();
+    }
+    if (req.method === "GET") {
+      return getTodaysPrice(req);
+    }
     return new Response("Upgrade failed", { status: 500 });
   },
   websocket: {
@@ -61,7 +70,6 @@ export const server = serve({
       // }
 
       console.log(`New WebSocket connection from ${origin}`);
-      // const msg = ` has connected`;
       ws.subscribe("liveltp");
       const data = await db
         .select()

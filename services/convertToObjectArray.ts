@@ -101,5 +101,6 @@ export function convertToObjectArray(content: string | ""): StockPricePost[] {
       (item): item is StockPricePost =>
         item !== null && Object.keys(item).length > 1
     )
-    .filter((item) => !Object.values(item).some((value) => value === null));
+    .filter((item) => Object.values(item).every((value) => value !== null))
+    .filter((item) => !item.symbol.includes("Symbol"));
 }
