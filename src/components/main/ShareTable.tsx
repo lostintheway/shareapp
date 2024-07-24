@@ -24,35 +24,36 @@ const ShareTable = ({ stockPrices }: Props) => {
           </tr>
         </thead>
         <tbody>
-          {stockPrices.map((stock, index) => (
-            <tr className="text-sm text-color-[#909090]" key={index}>
-              <td>
-                <GlowingDot
-                  isGreen={
-                    stock.percentChange !== null && stock.percentChange > 0
-                      ? true
-                      : false
-                  }
-                />
-              </td>
-              <td className="">{stock.symbol}</td>
-              <td className="">{stock.ltp}</td>
-              <td className="">{stock.pointChange}</td>
-              <td className="">
-                {stock.percentChange !== null && (
-                  <TransparentBtn
-                    myColor={stock.percentChange > 0 ? "green" : "red"}
-                  >
-                    {stock.percentChange}
-                  </TransparentBtn>
-                )}
-              </td>
-              <td className="">{stock.openPrice}</td>
-              <td className="">{stock.highPrice}</td>
-              <td className="">{stock.lowPrice}</td>
-              <td className="">{stock.volume}</td>
-            </tr>
-          ))}
+          {stockPrices &&
+            stockPrices?.map((stock, index) => (
+              <tr className="text-sm text-color-[#909090]" key={index}>
+                <td>
+                  <GlowingDot
+                    isGreen={
+                      stock.percentChange !== null && stock.percentChange > 0
+                        ? true
+                        : false
+                    }
+                  />
+                </td>
+                <td className="">{stock.symbol}</td>
+                <td className="">{stock.ltp}</td>
+                <td className="">{stock.pointChange}</td>
+                <td className="">
+                  {stock.percentChange !== null && (
+                    <TransparentBtn
+                      myColor={stock.percentChange > 0 ? "green" : "red"}
+                    >
+                      {stock.percentChange}
+                    </TransparentBtn>
+                  )}
+                </td>
+                <td className="">{stock.openPrice}</td>
+                <td className="">{stock.highPrice}</td>
+                <td className="">{stock.lowPrice}</td>
+                <td className="">{stock.volume}</td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>

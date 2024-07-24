@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { SelectStockData } from "@/db/schema";
 import { isLive } from "@/utils/isLive";
+import { BASE_URL } from "@/api/api";
+import { toast } from "sonner";
 
 export const useWebsocket = () => {
   const [stockPrices, setStockPrices] = useState<SelectStockData[]>([]);
@@ -14,19 +16,20 @@ export const useWebsocket = () => {
 
   useEffect(() => {
     const connectWebSocket = () => {
-      ws = new WebSocket("wss://localhost:5600/liveltp");
+      ws = new WebSocket(`wss://${BASE_URL}/liveltp`);
 
       const onOpen = () => {
         console.log("WebSocket connection established");
         setIsLoading(false);
-
+        // ws.on('pong', heartbeat);
+        // heartbeat.call(ws);
         // Clear any existing timeout
         clearTimeout(timeoutId);
 
         // Set a new timeout for the WebSocket
-        timeoutId = setTimeout(() => {
-          ws?.close();
-        }, 3000); // 4 seconds
+        // timeoutId = setTimeout(() => {
+        //   ws?.close();
+        // }, 5000); // 4 seconds
       };
 
       const onError = () => {
@@ -47,9 +50,9 @@ export const useWebsocket = () => {
       ws.onmessage = (event) => {
         clearTimeout(timeoutId);
         const newData = JSON.parse(event.data);
-        console.log({ newData });
 
         setStockPrices((prevData) => {
+          // return [...prevData, ...newData];
           const newDataMap = prevData.reduce(
             (map, data) => map.set(data.symbol, data),
             new Map<string, SelectStockData>()
@@ -61,12 +64,15 @@ export const useWebsocket = () => {
         });
 
         // Set a new timeout for the next WebSocket message
-        timeoutId = setTimeout(() => {
-          ws?.close();
-        }, 3000); // 4 seconds
+        // timeoutId = setTimeout(() => {
+        //   ws?.close();
+        // }, 5000); // 4 seconds
       };
 
-      ws.onclose = () => {
+      ws.onclose = (err) => {
+        console.log(
+          `WebSocket closed with code, reason: ${JSON.stringify(err)}`
+        );
         clearTimeout(timeoutId);
         console.log("WebSocket connection closed");
         setIsLoading(true);
@@ -76,7 +82,7 @@ export const useWebsocket = () => {
     };
     function getTodaysPrice() {
       axios
-        .get("http://localhost:5600/todaysprice")
+        .get(BASE_URL + "/todaysprice")
         .then((res) => {
           setStockPrices(res.data);
           setIsLoading(false);
@@ -86,11 +92,13 @@ export const useWebsocket = () => {
           setIsLoading(false);
         });
     }
-    if (!isLive()) {
-      getTodaysPrice();
-    } else {
-      connectWebSocket();
-    }
+    // if (!isLive()) {
+    //   toast("at get todays price");
+    //   getTodaysPrice();
+    // } else {
+    //   toast("at connect websocket");
+    connectWebSocket();
+    // }
     return () => {
       clearTimeout(timeoutId);
       if (ws) {
