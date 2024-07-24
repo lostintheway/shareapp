@@ -45,7 +45,6 @@ export async function scrapeJinaLiveMarket(stopCallback: () => boolean) {
         if (lastData.content.length < 60) return;
         const stockData = convertToObjectArray(lastData.content);
         const diffData = diffFn(stockData, previousData);
-        write("./diff.json", JSON.stringify({ diffData }));
 
         if (!diffData || diffData.length === 0) {
           console.log("No changes found");
