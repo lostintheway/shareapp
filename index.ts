@@ -42,12 +42,12 @@ export const server = serve({
       return; // Do not return a Response
     }
     // Handle OPTIONS requests for CORS preflight
-    if (req.method === "OPTIONS") {
-      return handleOptions();
-    }
-    if (req.method === "GET") {
-      return getTodaysPrice(req);
-    }
+    // if (req.method === "OPTIONS") {
+    //   return handleOptions();
+    // }
+    // if (req.method === "GET") {
+    //   return getTodaysPrice(req);
+    // }
     return new Response("Upgrade failed", { status: 500 });
   },
   websocket: {
@@ -55,19 +55,19 @@ export const server = serve({
       const origin = ws.remoteAddress;
 
       // List of allowed origins
-      const allowedOrigins = [
-        "sushilsampangrai.com",
-        "tunnel.sushilsampangrai.com",
-        "localhost:5173",
-        "127.0.0.1:3202",
-      ];
+      // const allowedOrigins = [
+      //   "sushilsampangrai.com",
+      //   "tunnel.sushilsampangrai.com",
+      //   "localhost:5173",
+      //   "127.0.0.1:3202",
+      // ];
 
-      // Check if the origin is allowed
-      if (!allowedOrigins.some((allowed) => origin.includes(allowed))) {
-        console.log(`Rejected WebSocket connection from ${origin}`);
-        ws.close(1008, "Origin not allowed");
-        return;
-      }
+      // // Check if the origin is allowed
+      // if (!allowedOrigins.some((allowed) => origin.includes(allowed))) {
+      //   console.log(`Rejected WebSocket connection from ${origin}`);
+      //   ws.close(1008, "Origin not allowed");
+      //   return;
+      // }
 
       console.log(`New WebSocket connection from ${origin}`);
       ws.subscribe("liveltp");
