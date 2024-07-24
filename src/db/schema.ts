@@ -19,3 +19,4 @@ export const stockPrice = sqliteTable("stock_prices", {
 // module.exports = { stockPrice };
 export type InsertStockData = typeof stockPrice.$inferInsert;
 export type SelectStockData = typeof stockPrice.$inferSelect;
+export type StockDataGet = typeof stockPrice.$inferSelect;

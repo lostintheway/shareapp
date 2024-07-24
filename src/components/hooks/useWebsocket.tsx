@@ -1,16 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { SelectStockData } from "@/db/schema";
 import { isLive } from "@/utils/isLive";
 import { BASE_URL } from "@/api/api";
 import { toast } from "sonner";
+import { isMessageBodyOk } from "@/utils/isMessageBodyOk";
 
 export const useWebsocket = () => {
   const [stockPrices, setStockPrices] = useState<SelectStockData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const retryCount = 2;
-  let retry = 0;
+  const retryRef = useRef(0);
   let timeoutId: NodeJS.Timeout;
   let ws: WebSocket | undefined;
 
@@ -21,22 +22,16 @@ export const useWebsocket = () => {
       const onOpen = () => {
         console.log("WebSocket connection established");
         setIsLoading(false);
-        // ws.on('pong', heartbeat);
-        // heartbeat.call(ws);
-        // Clear any existing timeout
-        clearTimeout(timeoutId);
-
-        // Set a new timeout for the WebSocket
-        // timeoutId = setTimeout(() => {
-        //   ws?.close();
-        // }, 5000); // 4 seconds
+        retryRef.current = 0; // Reset retry count on successful connection
       };
 
       const onError = () => {
-        if (retry < retryCount) {
-          retry++;
-          connectWebSocket();
+        if (retryRef.current < retryCount) {
+          retryRef.current++;
+          console.log(`Retrying connection... Attempt ${retryRef.current}`);
+          setTimeout(connectWebSocket, 1000 * retryRef.current); // Exponential backoff
         } else {
+          console.log("Max retries reached. Falling back to HTTP request.");
           getTodaysPrice();
         }
       };
@@ -51,35 +46,43 @@ export const useWebsocket = () => {
         clearTimeout(timeoutId);
         const newData = JSON.parse(event.data);
 
-        setStockPrices((prevData) => {
-          // return [...prevData, ...newData];
-          const newDataMap = prevData.reduce(
-            (map, data) => map.set(data.symbol, data),
-            new Map<string, SelectStockData>()
-          );
-          newData.forEach((newData: SelectStockData) => {
-            newDataMap.set(newData.symbol, newData);
+        if (isMessageBodyOk(newData)) {
+          setStockPrices((prevData) => {
+            const newDataMap = prevData.reduce(
+              (map, data) => map.set(data.symbol, data),
+              new Map<string, SelectStockData>()
+            );
+            newData.forEach((newData: SelectStockData) => {
+              newDataMap.set(newData.symbol, newData);
+            });
+            return Array.from(newDataMap.values());
           });
-          return Array.from(newDataMap.values());
-        });
-
-        // Set a new timeout for the next WebSocket message
-        // timeoutId = setTimeout(() => {
-        //   ws?.close();
-        // }, 5000); // 4 seconds
+        } else {
+          console.error("Received data does not match expected format:");
+        }
       };
 
       ws.onclose = (err) => {
         console.log(
           `WebSocket closed with code, reason: ${JSON.stringify(err)}`
         );
-        clearTimeout(timeoutId);
         console.log("WebSocket connection closed");
         setIsLoading(true);
         setStockPrices([]);
-        onError();
+
+        // Attempt to reconnect on unexpected closure
+        if (retryRef.current < retryCount) {
+          console.log("Unexpected closure. Attempting to reconnect...");
+          onError(); // This will trigger the retry logic
+        } else {
+          console.log(
+            "Max retries reached after unexpected closure. Falling back to HTTP request."
+          );
+          getTodaysPrice();
+        }
       };
     };
+
     function getTodaysPrice() {
       axios
         .get(BASE_URL + "/todaysprice")
@@ -92,13 +95,15 @@ export const useWebsocket = () => {
           setIsLoading(false);
         });
     }
-    // if (!isLive()) {
-    //   toast("at get todays price");
-    //   getTodaysPrice();
-    // } else {
-    //   toast("at connect websocket");
-    connectWebSocket();
-    // }
+
+    if (!isLive()) {
+      // toast("at get todays price");
+      getTodaysPrice();
+    } else {
+      // toast("at connect websocket");
+      connectWebSocket();
+    }
+
     return () => {
       clearTimeout(timeoutId);
       if (ws) {

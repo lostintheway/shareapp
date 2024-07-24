@@ -1,5 +1,6 @@
 // get Asia/Kathmandu time and is from sunday to thursday 11am to 3pm else return fals
 export const isLive = () => {
+  return true;
   // Get the current time in UTC
   const now = new Date();
 
