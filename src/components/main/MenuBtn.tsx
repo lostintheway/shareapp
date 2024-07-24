@@ -8,11 +8,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { DropdownMenuShortcut } from "../ui/dropdown-menu";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../theme-provider";
 
 const MenuBtn = () => {
   const navigate = useNavigate();
+  const { setTheme, theme } = useTheme();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -42,11 +44,12 @@ const MenuBtn = () => {
         </DropdownMenuItem>
         {/* </Link> */}
         {/* ⇧⌘Q */}
-        <DropdownMenuItem>Support</DropdownMenuItem>
-        {/* <DropdownMenuSeparator /> */}
-        <DropdownMenuItem>
-          Log out
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+        {/* <DropdownMenuItem>Support</DropdownMenuItem> */}
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+        >
+          Set {theme === "dark" ? "Light" : "Dark"} Mode
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

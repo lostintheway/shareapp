@@ -7,6 +7,7 @@ import "./styles/glowDot.css";
 import AddWatchlist from "./pages/Watchlist/AddWatchlist";
 
 function App() {
+  console.log(import.meta.env.ENV);
   return (
     <>
       <BrowserRouter>

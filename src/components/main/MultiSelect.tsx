@@ -15,11 +15,11 @@ const MultiSelect = ({ items, handleSelectedItems }: Props) => {
   const [selectedItems, setSelectedItems] = useState<Stonks[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 
-  const handleSelect = (item) => {
+  const handleSelect = (item: Stonks) => {
     setSelectedItems((prevSelected) => {
       if (prevSelected.find((i) => i.id === item.id)) {
         return prevSelected.filter((i) => i.id !== item.id);
@@ -36,15 +36,15 @@ const MultiSelect = ({ items, handleSelectedItems }: Props) => {
     .slice(0, 5);
 
   return (
-    <div className="max-w-md mx-auto mt-8">
+    <div className="w-80">
       <input
         type="text"
         placeholder="Search items..."
         value={searchTerm}
-        onChange={handleSearch}
-        className="w-full px-4 py-2 mb-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        onChange={(e) => handleSearch(e)}
+        className="w-full px-4 py-2 mb-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-primary"
       />
-      <ul className="space-y-2">
+      <ul className="space-y-2 mb-2">
         {filteredItems.map((item) => (
           <li
             key={item.id}
@@ -61,6 +61,7 @@ const MultiSelect = ({ items, handleSelectedItems }: Props) => {
           </li>
         ))}
       </ul>
+
       <Button onClick={() => handleSelectedItems(selectedItems)}>Submit</Button>
       <div className="mt-4">
         <h3 className="font-semibold">Selected Items:</h3>
