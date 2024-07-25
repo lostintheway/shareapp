@@ -2,7 +2,7 @@ import { Elysia } from "elysia";
 import { schedule } from "node-cron";
 import { scrapeJinaLiveMarket } from "./services/jinaFn";
 import { setupGlobalLogging } from "./utils/globalLogger";
-import { checkAndRunIfNeeded } from "./utils/checkAndRunIfNeeded";
+import { checkAndRunIfNeeded, checkIfLive } from "./utils/checkAndRunIfNeeded";
 import { db } from "./db/db";
 import { stockPrice } from "./db/schema";
 import { asc } from "drizzle-orm";
@@ -35,7 +35,6 @@ schedule("15 5 * * 0-4", async () => {
 
 schedule("19 5 * * 0-4", () => {
   stopScraping();
-  // Stop after 4 hours
 });
 
 // Run the check when the program starts
@@ -59,9 +58,17 @@ export const app = new Elysia()
   })
   .use(cors({ origin: true }))
   .get("/", () => "Hello, World!")
-  .get("/islive", () => isRunning)
+  .get("/islive", async () => {
+    const isHoli = await isHolidayFn();
+    if (isHoli) return false;
+    const checked = checkIfLive();
+    if (checked.isLive) return true;
+    return false;
+  })
   .get("/todaysprice", getTodaysPrice)
   .listen(5600);
+
+// console.log(JSON.stringify(() => isRunning));
 
 console.log(
   `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
