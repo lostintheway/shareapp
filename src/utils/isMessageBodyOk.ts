@@ -37,10 +37,11 @@ export function isMessageBodyOk(data: unknown): data is StockDataGet[] {
       typeof item.timestamp === "string" &&
       "ltv" in item &&
       typeof item.ltv === "number" &&
-      "pointChange" in item &&
-      typeof item.pointChange === "number" &&
-      "percentChange" in item &&
-      typeof item.percentChange === "number" &&
+      // &&
+      // "pointChange" in item &&
+      // typeof item.pointChange === "number" &&
+      // "percentChange" in item &&
+      // typeof item.percentChange === "number"
       "openPrice" in item &&
       typeof item.openPrice === "number" &&
       "highPrice" in item &&

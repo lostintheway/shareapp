@@ -2,22 +2,22 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { SelectStockData } from "@/db/schema";
 import { isLive } from "@/utils/isLive";
-import { BASE_URL } from "@/api/api";
-import { toast } from "sonner";
+import { BASE_URL, WS_URL } from "@/api/api";
 import { isMessageBodyOk } from "@/utils/isMessageBodyOk";
+import { toast } from "sonner";
 
 export const useWebsocket = () => {
   const [stockPrices, setStockPrices] = useState<SelectStockData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const retryCount = 2;
+  const retryCount = 5;
   const retryRef = useRef(0);
   let timeoutId: NodeJS.Timeout;
   let ws: WebSocket | undefined;
 
   useEffect(() => {
     const connectWebSocket = () => {
-      ws = new WebSocket(`wss://${BASE_URL}/liveltp`);
+      ws = new WebSocket(`wss://${WS_URL}/liveltp`);
 
       const onOpen = () => {
         console.log("WebSocket connection established");
@@ -95,14 +95,17 @@ export const useWebsocket = () => {
           setIsLoading(false);
         });
     }
-
-    if (!isLive()) {
-      // toast("at get todays price");
-      getTodaysPrice();
-    } else {
-      // toast("at connect websocket");
-      connectWebSocket();
-    }
+    const mainEvent = async () => {
+      const isLivee = await isLive();
+      if (!isLivee) {
+        toast("Getting todays price");
+        getTodaysPrice();
+      } else {
+        // toast("at connect websocket");
+        connectWebSocket();
+      }
+    };
+    mainEvent();
 
     return () => {
       clearTimeout(timeoutId);
