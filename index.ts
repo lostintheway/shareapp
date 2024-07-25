@@ -29,7 +29,11 @@ export function stopScraping(): boolean {
 schedule("0 11 * * 0-4", () => {
   startScraping();
   // Stop after 4 hours
-  setTimeout(stopScraping, 4 * 60 * 60 * 1000);
+});
+
+schedule("0 15 * * 0-4", () => {
+  stopScraping();
+  // Stop after 4 hours
 });
 
 // Run the check when the program starts ...

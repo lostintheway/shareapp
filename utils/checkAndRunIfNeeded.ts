@@ -28,7 +28,6 @@ export function checkAndRunIfNeeded() {
     );
 
     startScraping();
-    setTimeout(stopScraping, minutesUntilStop * 60 * 1000);
   } else {
     console.log(
       `Current time in Kathmandu is ${hour.toString().padStart(2, "0")}:${minute
