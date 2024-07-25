@@ -3,7 +3,7 @@ import { bulkInsertStockPrices } from "./bulkInsert";
 import { sleep, write } from "bun";
 import { convertToObjectArray } from "./convertToObjectArray";
 import { diffFn } from "../utils/diff";
-import { server } from "..";
+import { app } from "..";
 
 export async function scrapeJinaLiveMarket(stopCallback: () => boolean) {
   let previousData: any = null;
@@ -51,7 +51,8 @@ export async function scrapeJinaLiveMarket(stopCallback: () => boolean) {
         } else {
           console.log("Changes found, ws publish");
 
-          server.publish("liveltp", JSON.stringify(diffData));
+          app.server?.publish("liveltp", JSON.stringify(diffData));
+          //  server.publish("liveltp", JSON.stringify(diffData));
           await bulkInsertStockPrices(diffData);
         }
         previousData = stockData;

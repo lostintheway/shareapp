@@ -1,78 +1,51 @@
+import { Elysia } from "elysia";
 import { schedule } from "node-cron";
 import { scrapeJinaLiveMarket } from "./services/jinaFn";
 import { setupGlobalLogging } from "./utils/globalLogger";
 import { checkAndRunIfNeeded } from "./utils/checkAndRunIfNeeded";
-import { serve } from "bun";
 import { db } from "./db/db";
-import { stockPrice } from "./db/schema";
+import { isHoliday, stockPrice } from "./db/schema";
 import { asc } from "drizzle-orm";
 import { getTodaysPrice } from "./routes/todaysprice";
 import { handleOptions } from "./utils/cors";
+import { isHolidayFn } from "./services/isHoliday";
+import { cors } from "@elysiajs/cors";
 
 setupGlobalLogging();
 
 let isRunning: boolean = false;
 
-export function startScraping(): void {
+async function startScraping(): Promise<void> {
+  const isHoli = await isHolidayFn();
+  if (isHoli) return;
   if (!isRunning) {
     isRunning = true;
     scrapeJinaLiveMarket(stopScraping);
   }
 }
 
-export function stopScraping(): boolean {
+function stopScraping(): boolean {
   isRunning = false;
   return isRunning;
 }
 
 // Start scraping at 11 AM, Sunday to Thursday
-schedule("0 11 * * 0-4", () => {
+schedule("15 5 * * 0-4", () => {
   startScraping();
-  // Stop after 4 hours
 });
 
-schedule("0 15 * * 0-4", () => {
+schedule("19 5 * * 0-4", () => {
   stopScraping();
   // Stop after 4 hours
 });
 
-// Run the check when the program starts ...
+// Run the check when the program starts
 checkAndRunIfNeeded();
 
-export const server = serve({
-  port: 5600,
-  fetch(req, server) {
-    if (server.upgrade(req)) {
-      return; // Do not return a Response
-    }
-    // Handle OPTIONS requests for CORS preflight
-    // if (req.method === "OPTIONS") {
-    //   return handleOptions();
-    // }
-    // if (req.method === "GET") {
-    //   return getTodaysPrice(req);
-    // }
-    return new Response("Upgrade failed", { status: 500 });
-  },
-  websocket: {
-    async open(ws) {
+export const app = new Elysia()
+  .ws("/ws", {
+    open: async (ws) => {
       const origin = ws.remoteAddress;
-
-      // List of allowed origins
-      // const allowedOrigins = [
-      //   "sushilsampangrai.com",
-      //   "tunnel.sushilsampangrai.com",
-      //   "localhost:5173",
-      //   "127.0.0.1:3202",
-      // ];
-
-      // // Check if the origin is allowed
-      // if (!allowedOrigins.some((allowed) => origin.includes(allowed))) {
-      //   console.log(`Rejected WebSocket connection from ${origin}`);
-      //   ws.close(1008, "Origin not allowed");
-      //   return;
-      // }
-
       console.log(`New WebSocket connection from ${origin}`);
       ws.subscribe("liveltp");
       const data = await db
@@ -81,8 +54,16 @@ export const server = serve({
         .orderBy(asc(stockPrice.symbol));
       ws.send(JSON.stringify(data));
     },
-    message(ws, msg) {
-      ws.send(msg);
+    message: (ws, message) => {
+      ws.send(message);
     },
-  },
-});
+  })
+  .use(cors({ origin: true }))
+  .get("/", () => "Hello, World!")
+  .get("/todaysprice", getTodaysPrice)
+  // .options("*", handleOptions)
+  .listen(5600);
+
+console.log(
+  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
+);
