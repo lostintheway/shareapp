@@ -42,7 +42,7 @@ schedule("19 5 * * 0-4", () => {
 checkAndRunIfNeeded();
 
 export const app = new Elysia()
-  .ws("/ws", {
+  .ws("/liveltp", {
     open: async (ws) => {
       const origin = ws.remoteAddress;
       console.log(`New WebSocket connection from ${origin}`);
