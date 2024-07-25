@@ -4,10 +4,9 @@ import { scrapeJinaLiveMarket } from "./services/jinaFn";
 import { setupGlobalLogging } from "./utils/globalLogger";
 import { checkAndRunIfNeeded } from "./utils/checkAndRunIfNeeded";
 import { db } from "./db/db";
-import { isHoliday, stockPrice } from "./db/schema";
+import { stockPrice } from "./db/schema";
 import { asc } from "drizzle-orm";
 import { getTodaysPrice } from "./routes/todaysprice";
-import { handleOptions } from "./utils/cors";
 import { isHolidayFn } from "./services/isHoliday";
 import { cors } from "@elysiajs/cors";
 
@@ -15,7 +14,7 @@ setupGlobalLogging();
 
 let isRunning: boolean = false;
 
-async function startScraping(): Promise<void> {
+export async function startScraping(): Promise<void> {
   const isHoli = await isHolidayFn();
   if (isHoli) return;
   if (!isRunning) {
@@ -30,8 +29,8 @@ function stopScraping(): boolean {
 }
 
 // Start scraping at 11 AM, Sunday to Thursday
-schedule("15 5 * * 0-4", () => {
-  startScraping();
+schedule("15 5 * * 0-4", async () => {
+  await startScraping();
 });
 
 schedule("19 5 * * 0-4", () => {
@@ -61,7 +60,6 @@ export const app = new Elysia()
   .use(cors({ origin: true }))
   .get("/", () => "Hello, World!")
   .get("/todaysprice", getTodaysPrice)
-  // .options("*", handleOptions)
   .listen(5600);
 
 console.log(

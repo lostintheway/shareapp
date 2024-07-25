@@ -1,4 +1,4 @@
-import { startScraping, stopScraping } from "..";
+import { startScraping } from "..";
 
 // Check if the current time is within the scraping window when the program first runs
 export function checkAndRunIfNeeded() {
