@@ -32,7 +32,7 @@ schedule("0 11 * * 0-4", () => {
   setTimeout(stopScraping, 4 * 60 * 60 * 1000);
 });
 
-// Run the check when the program starts
+// Run the check when the program starts ...
 checkAndRunIfNeeded();
 
 export const server = serve({
