@@ -59,6 +59,7 @@ export const app = new Elysia()
   })
   .use(cors({ origin: true }))
   .get("/", () => "Hello, World!")
+  .get("/islive", () => isRunning)
   .get("/todaysprice", getTodaysPrice)
   .listen(5600);
 
