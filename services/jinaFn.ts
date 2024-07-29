@@ -14,7 +14,7 @@ export async function scrapeJinaLiveMarket() {
   console.log(`Scrape started jina ktm: [${kathmandyTime.toLocaleString()}]`);
   try {
     const response = await axios.get(
-      "https://r.jina.ai/https://nepalstock.com/live-market",
+      "https://r.jina.ai/https://nepalstock.com.np/live-market",
       {
         headers: {
           "X-No-Cache": "true",
@@ -43,6 +43,7 @@ export async function scrapeJinaLiveMarket() {
     if (lastData && typeof lastData === "object" && "content" in lastData) {
       if (lastData.content.length < 60) return;
       const stockData = convertToObjectArray(lastData.content);
+      write("./data.json", JSON.stringify(stockData));
       const diffData = diffFn(stockData, previousData);
 
       if (!diffData || diffData.length === 0) {
@@ -50,6 +51,7 @@ export async function scrapeJinaLiveMarket() {
       } else {
         console.log("Changes found, ws publish");
 
+        write("./diff.json", JSON.stringify(diffData));
         app.server?.publish("liveltp", JSON.stringify(diffData));
         //  server.publish("liveltp", JSON.stringify(diffData));
         await bulkInsertStockPrices(diffData);
