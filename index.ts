@@ -19,7 +19,9 @@ export async function startScraping(): Promise<void> {
   if (isHoli) return;
   if (!isRunning) {
     isRunning = true;
-    scrapeJinaLiveMarket(stopScraping);
+    setInterval(async () => {
+      await scrapeJinaLiveMarket();
+    }, 4000);
   }
 }
 
