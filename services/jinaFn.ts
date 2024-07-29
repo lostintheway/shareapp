@@ -61,8 +61,9 @@ export async function scrapeJinaLiveMarket(stopCallback: () => boolean) {
       }
     } catch (error) {
       console.log("Error:", error);
+    } finally {
+      sleep(2000);
     }
-    sleep(2000);
   }
   console.log("Scraping stopped as per stopCallback");
 }
