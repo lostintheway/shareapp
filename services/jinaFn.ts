@@ -43,7 +43,8 @@ export async function scrapeJinaLiveMarket() {
     if (lastData && typeof lastData === "object" && "content" in lastData) {
       if (lastData.content.length < 60) return;
       const stockData = convertToObjectArray(lastData.content);
-      write("./data.json", JSON.stringify(stockData));
+      write(`./current_${Date.now()}.json`, JSON.stringify(stockData));
+      write(`./previous_${Date.now()}.json`, JSON.stringify(previousData));
       const diffData = diffFn(stockData, previousData);
 
       if (!diffData || diffData.length === 0) {
@@ -51,7 +52,7 @@ export async function scrapeJinaLiveMarket() {
       } else {
         console.log("Changes found, ws publish");
 
-        write("./diff.json", JSON.stringify(diffData));
+        write(`./diff_${Date.now()}.json`, JSON.stringify(diffData));
         app.server?.publish("liveltp", JSON.stringify(diffData));
         //  server.publish("liveltp", JSON.stringify(diffData));
         await bulkInsertStockPrices(diffData);
@@ -60,8 +61,10 @@ export async function scrapeJinaLiveMarket() {
     } else {
       console.log("No data received");
     }
-  } catch (error) {
-    console.log("Error:", error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.log("Error:", error.message);
+    }
   } finally {
     // setTimeout(() => {
     //   console.log("Scraping stopped as per timeout");

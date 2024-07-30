@@ -2,7 +2,7 @@ import { startScraping } from "..";
 
 // Check if the kTM day: ${day} time: the scraping window when the program first runs
 
-export const checkIfLive = (): {
+export const checkIfScrapingWindow = (): {
   day: number;
   hour: number;
   minute: number;
@@ -38,7 +38,7 @@ export const checkIfLive = (): {
 };
 
 export function checkAndRunIfNeeded() {
-  const { day, hour, minute, isLive } = checkIfLive();
+  const { day, hour, minute, isLive } = checkIfScrapingWindow();
   // Get current UTC time
   if (isLive) {
     const minutesUntilStop = (15 - hour) * 60 - minute;

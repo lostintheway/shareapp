@@ -2,7 +2,10 @@ import { Elysia } from "elysia";
 import { schedule } from "node-cron";
 import { scrapeJinaLiveMarket } from "./services/jinaFn";
 import { setupGlobalLogging } from "./utils/globalLogger";
-import { checkAndRunIfNeeded, checkIfLive } from "./utils/checkAndRunIfNeeded";
+import {
+  checkAndRunIfNeeded,
+  checkIfScrapingWindow,
+} from "./utils/checkAndRunIfNeeded";
 import { db } from "./db/db";
 import { stockPrice } from "./db/schema";
 import { asc } from "drizzle-orm";
@@ -13,34 +16,43 @@ import { cors } from "@elysiajs/cors";
 setupGlobalLogging();
 
 let isRunning: boolean = false;
+let intervalId: NodeJS.Timeout | null | Timer = null;
 
 export async function startScraping(): Promise<void> {
   const isHoli = await isHolidayFn();
   if (isHoli) return;
   if (!isRunning) {
     isRunning = true;
-    setInterval(async () => {
+    intervalId = setInterval(async () => {
       await scrapeJinaLiveMarket();
-    }, 4000);
+    }, 6000);
   }
 }
 
 function stopScraping(): boolean {
+  if (intervalId) {
+    clearInterval(intervalId);
+    intervalId = null;
+  }
   isRunning = false;
   return isRunning;
 }
 
 // Start scraping at 11 AM, Sunday to Thursday
 schedule("15 5 * * 0-4", async () => {
+  console.log("Schedule started");
   await startScraping();
 });
 
-schedule("19 5 * * 0-4", () => {
+schedule("15 9 * * 0-4", () => {
+  console.log("Schedule stopped");
   stopScraping();
 });
 
 // Run the check when the program starts
 checkAndRunIfNeeded();
+
+// await scrapeJinaLiveMarket();
 
 export const app = new Elysia()
   .ws("/liveltp", {
@@ -63,7 +75,7 @@ export const app = new Elysia()
   .get("/islive", async () => {
     const isHoli = await isHolidayFn();
     if (isHoli) return false;
-    const checked = checkIfLive();
+    const checked = checkIfScrapingWindow();
     if (checked.isLive) return true;
     return false;
   })
