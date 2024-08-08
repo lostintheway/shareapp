@@ -4,7 +4,7 @@ import { useState } from "react";
 export function MyMenuBar() {
   const [selected, setSelected] = useState("File");
 
-  const menuItems = ["File", "Edit", "View", "Help"];
+  const menuItems = ["Login"];
 
   return (
     <Menubar className="w-min bg-[#232329]">

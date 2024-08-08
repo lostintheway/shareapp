@@ -4,7 +4,6 @@ import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
@@ -23,18 +22,23 @@ const MenuBtn = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel className="cursor-pointer">
-          My Watchlist
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          Home
+        </DropdownMenuItem>
         {/* <Link to="/my_watchlist"> */}
+        <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
             navigate("/my_watchlist");
           }}
         >
-          View Watchlist
+          My Watchlist
         </DropdownMenuItem>
+        <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
             navigate("/add_watchlist");

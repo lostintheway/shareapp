@@ -98,7 +98,7 @@ export const useWebsocket = () => {
     const mainEvent = async () => {
       const isLivee = await isLive();
       if (!isLivee) {
-        toast("Getting todays price");
+        toast("Getting todays price, not ws");
         getTodaysPrice();
       } else {
         // toast("at connect websocket");

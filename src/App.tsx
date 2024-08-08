@@ -5,23 +5,21 @@ import PageNotFound from "./pages/PageNotFound";
 import ViewWatchlist from "./pages/Watchlist/ViewWatchlist";
 import "./styles/glowDot.css";
 import AddWatchlist from "./pages/Watchlist/AddWatchlist";
+import DashboardLayout from "./components/layouts/DashboardLayout";
 
 function App() {
-  console.log(import.meta.env.ENV);
+  // console.log(import.meta.env.ENV);
   return (
     <>
       <BrowserRouter>
-        <MyHeader />
         <Routes>
-          <Route path="/" element={<Alphabetical />} />
-          <Route path="/hightolow" element={<Alphabetical />} />
-          {/* my_watchlist */}
-          <Route path="/my_watchlist" element={<ViewWatchlist />} />
-          <Route path="/add_watchlist" element={<AddWatchlist />} />
-          {/* <Route path="/app" element={<Dashboard />}>
-            <Route path="home" element={<Home />} />
-            <Route path="portfolio/:id" element={<Portfolio />} />
-          </Route> */}
+          <Route path="/" element={<MyHeader />}>
+            <Route index element={<Alphabetical />} />
+            <Route path="hightolow" element={<Alphabetical />} />
+            <Route path="my_watchlist" element={<ViewWatchlist />} />
+            <Route path="add_watchlist" element={<AddWatchlist />} />
+          </Route>
+          <Route path="/admin" element={<DashboardLayout />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>

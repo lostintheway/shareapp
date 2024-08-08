@@ -21,20 +21,20 @@ const AddWatchlist = () => {
           ]}
           handleSelectedItems={(data) => {
             const current = localStorage.getItem("my_watchlist");
-            if (current) {
-              const parsed = JSON.parse(current);
-              const newData = new Set([
-                ...parsed,
-                ...data.map((dat) => dat.id),
-              ]);
-              localStorage.setItem("my_watchlist", JSON.stringify(newData));
-              setRerender((prev) => !prev);
-              toast("Success");
-            } else {
-              const newData = new Set([...data.map((dat) => dat.id)]);
-              localStorage.setItem("my_watchlist", JSON.stringify(newData));
-              setRerender((prev) => !prev);
-            }
+            // if (current) {
+            //   const parsed = JSON.parse(current);
+            //   const newData = new Set([
+            //     ...parsed,
+            //     ...data.map((dat) => dat.id),
+            //   ]);
+            //   localStorage.setItem("my_watchlist", JSON.stringify(newData));
+            //   setRerender((prev) => !prev);
+            //   toast("Success");
+            // } else {
+            //   const newData = new Set([...data.map((dat) => dat.id)]);
+            //   localStorage.setItem("my_watchlist", JSON.stringify(newData));
+            //   setRerender((prev) => !prev);
+            // }
           }}
         />
       </div>
