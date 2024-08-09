@@ -1,6 +1,7 @@
 import { SelectStockData } from "@/db/schema";
 import { TransparentBtn } from "./TransparentBtn";
 import GlowingDot from "./GlowingDot";
+import { SortDownIcon } from "@/assets/icons/SortIcons";
 
 type Props = {
   stockPrices: SelectStockData[];
@@ -8,19 +9,36 @@ type Props = {
 const ShareTable = ({ stockPrices }: Props) => {
   return (
     <div>
-      {/* {JSON.stringify(stockPrices[0])} */}
       <table className="">
         <thead>
           <tr>
             <th></th>
-            <th>Symbol</th>
-            <th>LTP</th>
-            <th>Chg</th>
-            <th>% Chg</th>
-            <th>Opening</th>
-            <th>Highest</th>
-            <th>Low</th>
-            <th>Qty</th>
+            <th>
+              <span>
+                Symbol <SortDownIcon />
+              </span>
+            </th>
+            <th>
+              <span>LTP</span>
+            </th>
+            <th>
+              <span>Chg</span>
+            </th>
+            <th>
+              <span>% Chg</span>
+            </th>
+            <th>
+              <span>Opening</span>
+            </th>
+            <th>
+              <span>Highest</span>
+            </th>
+            <th>
+              <span>Low</span>
+            </th>
+            <th>
+              <span>Qty</span>
+            </th>
           </tr>
         </thead>
         <tbody>

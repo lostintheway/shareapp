@@ -12,3 +12,10 @@ th,
 td {
   padding: 4px 6px;
 }
+
+th span {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: fit-content;
+}
