@@ -7,7 +7,7 @@ export const SortUpIcon = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="feather feather-chevron-up w-4 h-4"
+    className="feather feather-chevron-up w-3 h-3 ml-2 p-0"
   >
     <polyline points="18 15 12 9 6 15"></polyline>
   </svg>
@@ -22,7 +22,7 @@ export const SortDownIcon = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="feather feather-chevron-down w-4 h-4"
+    className="feather feather-chevron-down w-3 h-3 ml-2 p-0"
   >
     <polyline points="6 9 12 15 18 9"></polyline>
   </svg>

@@ -9,7 +9,7 @@ const ShareViewLayout = ({ children }: Props) => {
   return (
     <main className="w-full flex justify-center mt-[-30px]">
       <div
-        className="bg-slate-950 flex justify-center"
+        className=" flex justify-center"
         style={{ width: "min(750px, 100vw)" }}
       >
         {/* <WebSocketConnection onPriceUpdate={updateStockPrice} /> */}
